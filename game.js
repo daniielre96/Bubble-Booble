@@ -4,24 +4,31 @@
 const FRAME_RATE = 60;
 const TIME_PER_FRAME = 1000 / FRAME_RATE;
 
-var scene = new Scene();
+var scene = new Scene(level1);
 var previousTimestamp;
 var keyboard = [];
 var interacted;
+var levels = [level1, level2, level3, level4, level5];
+var actualLevel = 0;
 
 
 // Control keyboard events
 
 function keyDown(keycode)
 {
-	if(keycode.which >= 0 && keycode.which < 256)
+	if(keycode.which == 40){
 		keyboard[keycode.which] = true;
+		if (actualLevel > 0) actualLevel--;
+	}
+
 }
 
 function keyUp(keycode)
 {
-	if(keycode.which >= 0 && keycode.which < 256)
+	if(keycode.which == 38){
 		keyboard[keycode.which] = false;
+		if(actualLevel < 4) actualLevel++;
+	}
 }
 
 function click()
@@ -49,7 +56,7 @@ function frameUpdate(timestamp)
 	var deltaTime = timestamp - previousTimestamp;
 	if(deltaTime > TIME_PER_FRAME)
 	{
-		scene.update(deltaTime);
+		scene.update(deltaTime, levels[actualLevel]);
 		previousTimestamp = timestamp;
 		scene.draw();
 	}

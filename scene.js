@@ -5,20 +5,33 @@
 function Scene()
 {
 	// Loading texture to use in a TileMap
-	var tilesheet = new Texture("imgs/tiles.png");
+	var tilesheet = new Texture("imgs/TileSet.png");
 	
 	// Create tilemap
-	this.map = new Tilemap(tilesheet, [16, 16], [2, 2], [0, 32], level01);
+	this.map = new Tilemap(tilesheet, [16, 16], [3, 2], [0, 32], level1);
 
 	// Store current time
 	this.currentTime = 0
 }
 
+function Scene(level){
+		// Loading texture to use in a TileMap
+		var tilesheet = new Texture("imgs/TileSet.png");
+	
+		// Create tilemap
+		this.map = new Tilemap(tilesheet, [16, 16], [3, 2], [0, 32], level);
+}
 
-Scene.prototype.update = function(deltaTime)
+
+Scene.prototype.update = function(deltaTime, level)
 {
 	// Keep track of time
 	this.currentTime += deltaTime;
+
+	var tilesheet = new Texture("imgs/TileSet.png");
+	
+	// Create tilemap
+	this.map = new Tilemap(tilesheet, [16, 16], [3, 2], [0, 32], level);
 }
 
 Scene.prototype.draw = function ()
