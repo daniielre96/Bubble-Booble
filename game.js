@@ -17,18 +17,19 @@ var actualLevel = 0;
 function keyDown(keycode)
 {
 	if(keycode.which == 40){
-		keyboard[keycode.which] = true;
 		if (actualLevel > 0) actualLevel--;
 	}
-
+	if(keycode.which >= 0 && keycode.which < 256)
+		keyboard[keycode.which] = true;
 }
 
 function keyUp(keycode)
 {
 	if(keycode.which == 38){
-		keyboard[keycode.which] = false;
 		if(actualLevel < 4) actualLevel++;
 	}
+	if(keycode.which >= 0 && keycode.which < 256)
+		keyboard[keycode.which] = false;
 }
 
 function click()
