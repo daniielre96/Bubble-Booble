@@ -140,7 +140,13 @@ Scene.prototype.update = function(deltaTime, level)
 	this.currentTime += deltaTime;
 
 	// Move Bub sprite
-	if(keyboard[37]) // KEY_LEFT
+	if(keyboard[37] && keyboard[32]){
+		if(this.bubSprite.currentAnimation != BUB_WALK_LEFT_SHOOT && this.bubSprite.currentAnimation != BUB_WALK_RIGHT)
+			this.bubSprite.setAnimation(BUB_WALK_LEFT_SHOOT);
+		if(this.bubSprite.x >= 2)
+		this.bubSprite.x -= 2;
+	}
+	else if(keyboard[37]) // KEY_LEFT
 	{
 		if(this.bubSprite.currentAnimation != BUB_WALK_LEFT)
 			this.bubSprite.setAnimation(BUB_WALK_LEFT);
@@ -173,6 +179,8 @@ Scene.prototype.update = function(deltaTime, level)
 			this.bubSprite.setAnimation(BUB_STAND_LEFT);
 		if(this.bubSprite.currentAnimation == BUB_SHOOT_RIGHT)
 			this.bubSprite.setAnimation(BUB_STAND_RIGHT);
+		if(this.bubSprite.currentAnimation == BUB_WALK_LEFT_SHOOT)
+			this.bubSprite.setAnimation(BUB_STAND_LEFT);
 	}
 
 	var tilesheet = new Texture("imgs/TileSet.png");
