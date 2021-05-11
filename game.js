@@ -16,8 +16,8 @@ var actualLevel = 0;
 
 function keyDown(keycode)
 {
-	if(keycode.which == 40){
-		if (actualLevel > 0) actualLevel--;
+	if(keycode.which >= 49 && keycode.which <= 53){
+		actualLevel = keycode.which-49; 
 	}
 	if(keycode.which >= 0 && keycode.which < 256)
 		keyboard[keycode.which] = true;
@@ -25,9 +25,6 @@ function keyDown(keycode)
 
 function keyUp(keycode)
 {
-	if(keycode.which == 38){
-		if(actualLevel < 4) actualLevel++;
-	}
 	if(keycode.which >= 0 && keycode.which < 256)
 		keyboard[keycode.which] = false;
 }
