@@ -8,6 +8,7 @@ function Scene()
 	// Loading spritesheets
 	var bub = new Texture("imgs/bub.png");
 	var bubble = new Texture("imgs/bubble.png");
+	var robotraged = new Texture("imgs/EnemiesSelected.png")
 
 	// Prepare Bub sprite & its animations
 	this.bubSprite = new Sprite(224, 224, 32, 32, 7, bub);
@@ -48,6 +49,8 @@ function Scene()
 	this.bubbleSprite.addKeyframe(0, [16, 0, 16, 16]);
 	this.bubbleSprite.addKeyframe(0, [32, 0, 16, 16]);
 	this.bubbleSprite.addKeyframe(0, [48, 0, 16, 16]);
+
+
 	
 	// Create tilemap
 	this.map = new Tilemap(tilesheet, [16, 16], [3, 2], [0, 32], level1);
@@ -68,6 +71,9 @@ function Scene(level){
 		this.bubble = new Bubble(360, 112);
 		this.bubbleActive = true;
 
+		this.robotraged = new Robot(65, 60, this.map);
+		this.robotragedactive = true; 
+
 		this.currentTime = 0;
 }
 
@@ -83,13 +89,17 @@ Scene.prototype.update = function(deltaTime, level)
 	// Create tilemap
 	this.map = new Tilemap(tilesheet, [16, 16], [3, 2], [0, 32], level);
 	this.player.updateMap(this.map);
+	this.robotraged.updateMap(this.map);
 
 	// Update sprites
 	this.player.update(deltaTime);
 	this.bubble.update(deltaTime);
+	this.robotraged.update(deltaTime);
 	
 	if(this.player.collisionBox().intersect(this.bubble.collisionBox()))
 		this.bubbleActive = false;
+	if(this.player.collisionBox().intersect(this.robotraged.collisionBox()))
+		this.robotragedactive = false;
 }
 
 Scene.prototype.draw = function ()
@@ -108,6 +118,8 @@ Scene.prototype.draw = function ()
 	// Draw entities
 	if(this.bubbleActive)
 		this.bubble.draw();
+	if(this.robotragedactive)
+		this.robotraged.draw();
 	this.player.draw();
 }
 
