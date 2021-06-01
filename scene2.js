@@ -15,6 +15,9 @@ function Scene2(){
     this.robotraged = new Robot(65, 60, this.map);
     this.robotragedactive = true; 
 
+    this.arañaraged = new Araña(120, 60, this.map);
+    this.arañaragedactive = true; 
+
     this.currentTime = 0;
 }
 
@@ -35,11 +38,14 @@ Scene2.prototype.update = function(deltaTime){
     this.player.update(deltaTime);
     this.bubble.update(deltaTime);
     this.robotraged.update(deltaTime);
+    this.arañaraged.update(deltaTime);
 
     if(this.player.collisionBox().intersect(this.bubble.collisionBox()))
         this.bubbleActive = false;
     if(this.player.collisionBox().intersect(this.robotraged.collisionBox()))
         this.robotragedactive = false;
+    if(this.player.collisionBox().intersect(this.arañaraged.collisionBox()))
+        this.arañaragedactive = false;
 
     return this.checkActualLevel();
 }
@@ -63,6 +69,9 @@ Scene2.prototype.draw = function (){
 
 	if(this.robotragedactive)
 		this.robotraged.draw();
+    
+    if(this.arañaragedactive)
+		this.arañaraged.draw();
 
 	this.player.draw();
 }
