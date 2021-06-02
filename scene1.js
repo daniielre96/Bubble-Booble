@@ -23,6 +23,7 @@ function Scene1(){
     this.bubbleRobotActive = true;
 
     this.bombolles = [];
+    this.shootactive = true; 
 
     this.currentTime = 0;
     this.previousTimeStamp = 0; 
@@ -31,8 +32,16 @@ function Scene1(){
 Scene1.prototype.checkshoot = function(){
     if(keyboard[32]){
         var shoot; 
-        if(this.player.positionright()) shoot = new Shot(this.player.sprite.x - 16, this.player.sprite.y, 0);
-        else shoot = new Shot(this.player.sprite.x +16 , this.player.sprite.y, 1);
+        if(this.player.positionright()){
+            shoot = new Shot(this.player.sprite.x - 16, this.player.sprite.y, 0);
+            this.shootactive = true; 
+
+        } 
+        else{
+            shoot = new Shot(this.player.sprite.x +16 , this.player.sprite.y, 1);
+            this.shootactive = true; 
+
+        } 
         this.bombolles.push(shoot);
     }
 }
@@ -80,6 +89,18 @@ Scene1.prototype.update = function(deltaTime){
     if(this.player.collisionBox().intersect(this.bubbleRobot.collisionBox()))
         this.bubbleRobotActive = false;
 
+    this.bombolles.forEach(element => {
+        if(element.collisionBox().intersect(this.robotraged.collisionBox()))
+            this.robotragedactive = false; 
+            this.shootactive = false; 
+
+    })
+    this.bombolles.forEach(element => {
+        if(element.collisionBox().intersect(this.arañaraged.collisionBox()))
+        this.arañaragedactive = false; 
+    })
+    
+    
     return this.checkActualLevel();
 }
 
@@ -109,9 +130,10 @@ Scene1.prototype.draw = function (){
     if(this.bubbleRobotActive)
         this.bubbleRobot.draw();
     
-        
+    
     this.bombolles.forEach(element => {
-        element.draw();
+            element.draw();
     });
+    
 	this.player.draw();
 }

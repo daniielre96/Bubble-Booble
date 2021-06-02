@@ -1,4 +1,6 @@
-
+function Shot(){
+    
+}
 
 function Shot(x, y, direction)
 {
