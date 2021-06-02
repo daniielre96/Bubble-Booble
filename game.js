@@ -57,7 +57,7 @@ function updateScreen(newScreen){
 		if(actualScreen == 4) scene = new Scene4();
 		if(actualScreen == 5) scene = new Scene5();
 		//if(actualScreen == 6) scene = new Instructions(); TO DO 
-		//if(actualScreen == 7) scene = new Credits(); TO DO
+		if(actualScreen == 7) scene = new Credits();
 
 	}
 }

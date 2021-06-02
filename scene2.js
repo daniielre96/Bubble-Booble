@@ -23,6 +23,7 @@ function Scene2(){
 
 Scene2.prototype.checkActualLevel = function(){
 
+    if(keyboard[27]) return 0;
     if(keyboard[49]) return 1;
     if(keyboard[51]) return 3;
     if(keyboard[52]) return 4;
