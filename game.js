@@ -10,6 +10,8 @@ var keyboard = [];
 var interacted;
 var levels = [level1, level2, level3, level4, level5];
 var actualScreen;
+var music;
+var musicEnabled;
 
 
 // Control keyboard events
@@ -43,6 +45,8 @@ function init()
 	previousTimestamp = performance.now();
 	interacted = false;
 	actualScreen = 0;
+	music = AudioFX('sounds/main_theme.mp3', { loop: true });
+	musicEnabled = false;
 }
 
 function updateScreen(newScreen){
@@ -58,6 +62,16 @@ function updateScreen(newScreen){
 		if(actualScreen == 5) scene = new Scene5();
 		//if(actualScreen == 6) scene = new Instructions(); TO DO 
 		if(actualScreen == 7) scene = new Credits();
+		if(actualScreen == 8){
+			if(musicEnabled){
+				music.stop();
+				musicEnabled = false;
+			}
+			else{
+				music.play();
+				musicEnabled = true;
+			}
+		}
 
 	}
 }
