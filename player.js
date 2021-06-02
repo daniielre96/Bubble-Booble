@@ -69,6 +69,10 @@ Player.prototype.updateMap = function(map){
 	this.map = map;
 }
 
+Player.prototype.positionright = function(){
+	return this.sprite.currentAnimation == 0 || this.sprite.currentAnimation == 2 || this.sprite.currentAnimation == 4 || this.sprite.currentAnimation == 6;
+}
+
 
 Player.prototype.update = function(deltaTime)
 {
@@ -117,8 +121,11 @@ Player.prototype.update = function(deltaTime)
 
 	if(this.sprite.y <= 48) this.bJumping = false;
 
+	
+
 	if(this.bJumping)
 	{
+		
 		this.jumpAngle += 4;
 		if(this.jumpAngle == 180)
 		{

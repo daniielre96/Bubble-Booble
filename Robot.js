@@ -1,4 +1,4 @@
-var movingright = true; 
+var movingrightrob = true; 
 
 const ROBOT_MOV_RIGHT = 0;
 const ROBOT_MOV_LEFT = 1;
@@ -33,18 +33,18 @@ function Robot(x, y, map)
 Robot.prototype.update = function update(deltaTime)
 {
     this.sprite.y += 6;
-    if(this.sprite.x < 464 && movingright){
+    if(this.sprite.x < 464 && movingrightrob){
         this.sprite.x += 2;
         if(this.sprite.currentAnimation!= ROBOT_MOV_RIGHT) this.sprite.setAnimation(ROBOT_MOV_RIGHT);
         if(this.sprite.x >= 462){
-            movingright = false; 
+            movingrightrob = false; 
         }
     }	
-    if(this.sprite.x >= 32 && !movingright){
+    if(this.sprite.x >= 32 && !movingrightrob){
         this.sprite.x -= 2;
         if(this.sprite.currentAnimation!= ROBOT_MOV_LEFT) this.sprite.setAnimation(ROBOT_MOV_LEFT);
         if(this.sprite.x <= 34){
-            movingright = true; 
+            movingrightrob = true; 
         }
     }
     

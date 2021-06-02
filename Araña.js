@@ -1,4 +1,4 @@
-var movingright = true; 
+var movingrightaraña = true; 
 
 const ARAÑA_MOV = 0; 
 
@@ -28,16 +28,16 @@ function Araña(x, y, map)
 Araña.prototype.update = function update(deltaTime)
 {
     this.sprite.y += 6;
-    if(this.sprite.x < 464 && movingright){
+    if(this.sprite.x < 464 && movingrightaraña){
         this.sprite.x += 2;
         if(this.sprite.x >= 462){
-            movingright = false; 
+            movingrightaraña = false; 
         }
     }	
-    if(this.sprite.x >= 32 && !movingright){
+    if(this.sprite.x >= 32 && !movingrightaraña){
         this.sprite.x -= 2;
         if(this.sprite.x <= 34){
-            movingright = true; 
+            movingrightaraña = true; 
         }
     }
     
