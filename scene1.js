@@ -12,25 +12,26 @@ function Scene1(){
     this.bubble = new Bubble(360, 112);
     this.bubbleActive = true;
 
-    this.robotraged = new Robot(65, 60, this.map);
+    this.robotraged = new Robot(300, 60, this.map);
     this.robotragedactive = true; 
 
     this.arañaraged = new Araña(120, 60, this.map);
     this.arañaragedactive = true; 
+
+    this.bubbleRobot = new BubbleRobot(400, 112, this.map);
+    this.bubbleRobotActive = true;
 
     this.currentTime = 0;
 }
 
 Scene1.prototype.checkActualLevel = function(){
 
-    console.log("0");
+    if(keyboard[50]) return 2;
+    if(keyboard[51]) return 3;
+    if(keyboard[52]) return 4;
+    if(keyboard[53]) return 5;
 
-    if(keyboard[50]) return 1;
-    if(keyboard[51]) return 2;
-    if(keyboard[52]) return 3;
-    if(keyboard[53]) return 4;
-
-    return 0;
+    return 1;
 }
 
 Scene1.prototype.update = function(deltaTime){
@@ -41,6 +42,7 @@ Scene1.prototype.update = function(deltaTime){
     this.bubble.update(deltaTime);
     this.robotraged.update(deltaTime);
     this.arañaraged.update(deltaTime);
+    this.bubbleRobot.update(deltaTime);
 
     if(this.player.collisionBox().intersect(this.bubble.collisionBox()))
         this.bubbleActive = false;
@@ -48,6 +50,8 @@ Scene1.prototype.update = function(deltaTime){
         this.robotragedactive = false;
     if(this.player.collisionBox().intersect(this.arañaraged.collisionBox()))
         this.arañaragedactive = false;
+    if(this.player.collisionBox().intersect(this.bubbleRobot.collisionBox()))
+        this.bubbleRobotActive = false;
 
     return this.checkActualLevel();
 }
@@ -74,6 +78,9 @@ Scene1.prototype.draw = function (){
 
     if(this.arañaragedactive)
 		this.arañaraged.draw();
+
+    if(this.bubbleRobotActive)
+        this.bubbleRobot.draw();
 
 	this.player.draw();
 }

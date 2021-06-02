@@ -4,12 +4,12 @@
 const FRAME_RATE = 60;
 const TIME_PER_FRAME = 1000 / FRAME_RATE;
 
-var scene = new Scene1();
+var scene = new Menu();
 var previousTimestamp;
 var keyboard = [];
 var interacted;
 var levels = [level1, level2, level3, level4, level5];
-var actualLevel;
+var actualScreen;
 
 
 // Control keyboard events
@@ -42,19 +42,23 @@ function init()
 	document.body.addEventListener('click', click);
 	previousTimestamp = performance.now();
 	interacted = false;
-	actualLevel = 0;
+	actualScreen = 0;
 }
 
-function updateLevel(newLevel){
+function updateScreen(newScreen){
 
-	if(actualLevel != newLevel){
-		actualLevel = newLevel;
+	if(actualScreen != newScreen){
+		actualScreen = newScreen;
 
-		if(actualLevel == 0) scene = new Scene1();
-		if(actualLevel == 1) scene = new Scene2();
-		if(actualLevel == 2) scene = new Scene3();
-		if(actualLevel == 3) scene = new Scene4();
-		if(actualLevel == 4) scene = new Scene5();
+		if(actualScreen == 0) scene = new Menu();
+		if(actualScreen == 1) scene = new Scene1();
+		if(actualScreen == 2) scene = new Scene2();
+		if(actualScreen == 3) scene = new Scene3();
+		if(actualScreen == 4) scene = new Scene4();
+		if(actualScreen == 5) scene = new Scene5();
+		//if(actualScreen == 6) scene = new Instructions(); TO DO 
+		//if(actualScreen == 7) scene = new Credits(); TO DO
+
 	}
 }
 
@@ -65,8 +69,8 @@ function frameUpdate(timestamp)
 	var deltaTime = timestamp - previousTimestamp;
 	if(deltaTime > TIME_PER_FRAME)
 	{
-		var newLevel = scene.update(deltaTime);
-		updateLevel(newLevel);
+		var newScreen = scene.update(deltaTime);
+		updateScreen(newScreen);
 		previousTimestamp = timestamp;
 		scene.draw();
 	}

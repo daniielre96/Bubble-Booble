@@ -4,14 +4,14 @@ const ARAÑA_MOV = 0;
 
 function Araña(x, y, map)
 {
-	var robotraged = new Texture("imgs/ArañaSelected.png");
+	var robotraged = new Texture("imgs/ArañaSelected_Normal.png");
 
 	// Prepare bubble sprite & its animation
 	this.sprite = new Sprite(x, y, 32, 32, 7, robotraged);
 
 	this.sprite.addAnimation();
-	this.sprite.addKeyframe(ARAÑA_MOV, [0, 16, 16, 16]);
-	this.sprite.addKeyframe(ARAÑA_MOV, [16, 16, 16, 16]);
+	this.sprite.addKeyframe(ARAÑA_MOV, [0, 0, 16, 16]);
+	this.sprite.addKeyframe(ARAÑA_MOV, [16, 0, 16, 16]);
 
     this.sprite.setAnimation(ARAÑA_MOV);
 
@@ -59,7 +59,7 @@ Araña.prototype.draw = function draw()
 
 Araña.prototype.collisionBox = function()
 {
-	var box = new Box(this.sprite.x + 2, this.sprite.y + 2, this.sprite.x + this.sprite.width - 4, this.sprite.y + this.sprite.height - 4);
+	var box = new Box(this.sprite.x + 2, this.sprite.y, this.sprite.x + this.sprite.width - 4, this.sprite.y + this.sprite.height);
 	
 	return box;
 }

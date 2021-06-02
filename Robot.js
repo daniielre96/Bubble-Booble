@@ -5,7 +5,7 @@ const ROBOT_MOV_LEFT = 1;
 
 function Robot(x, y, map)
 {
-	var robotraged = new Texture("imgs/EnemiesSelected.png");
+	var robotraged = new Texture("imgs/EnemiesSelected_Normal.png");
 
 	// Prepare bubble sprite & its animation
 	this.sprite = new Sprite(x, y, 32, 32, 7, robotraged);

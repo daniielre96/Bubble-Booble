@@ -20,12 +20,12 @@ function Scene4(){
 
 Scene4.prototype.checkActualLevel = function(){
 
-    if(keyboard[49]) return 0;
-    if(keyboard[50]) return 1;
-    if(keyboard[51]) return 2;
-    if(keyboard[53]) return 4;
+    if(keyboard[49]) return 1;
+    if(keyboard[50]) return 2;
+    if(keyboard[51]) return 3;
+    if(keyboard[53]) return 5;
 
-    return 3;
+    return 4;
 }
 
 Scene4.prototype.update = function(deltaTime){
