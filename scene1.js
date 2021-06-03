@@ -4,7 +4,7 @@
 function Scene1(){
 
     // Loading texture to use in a TileMap
-    var tilesheet = new Texture("imgs/TileSet.png");
+    var tilesheet = new Texture("imgs/TileSet.png");  
 
     this.map = new Tilemap(tilesheet, [16, 16], [3, 2], [0, 32], level1);
 
@@ -121,8 +121,11 @@ Scene1.prototype.draw = function (){
 		this.arañaraged.draw();
     
     this.bombolles.forEach(element => {
-        if(element.isDrawable()) element.draw();
+        if(element.isDrawable()) 
+            element.draw();
+
     });
     
 	this.player.draw();
+    
 }
