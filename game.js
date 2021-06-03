@@ -45,7 +45,7 @@ function init()
 	previousTimestamp = performance.now();
 	interacted = false;
 	actualScreen = 0;
-	music = AudioFX('sounds/main_theme.mp3', { loop: true });
+	music = AudioFX('sounds/Main Theme.mp3', { loop: true });
 	musicEnabled = false;
 }
 

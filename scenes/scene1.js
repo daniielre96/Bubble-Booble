@@ -17,8 +17,14 @@ function Scene1(){
 
     this.bombolles = new Set();
 
+    this.papaactive = false;
+    this.fruitactive = false;
+    this.papaPicked = false;
+    this.fruitPicked = false;
+
     this.currentTime = 0;
     this.previousTimeStamp = 0;
+    this.timerToPickUpFruit = 0;
 }
 
 Scene1.prototype.checkshoot = function(){
@@ -35,7 +41,7 @@ Scene1.prototype.checkshoot = function(){
 Scene1.prototype.checkActualLevel = function(){
 
     if(keyboard[27]) return 0;
-    if(keyboard[50] || !this.arañaragedactive && !this.robotragedactive) return 2;
+    if(keyboard[50] || ((!this.arañaragedactive && !this.robotragedactive && ((this.timerToPickUpFruit) > 10000))) || (!this.arañaragedactive && !this.robotragedactive && !this.fruitactive && !this.papaactive)) return 2;
     if(keyboard[51]) return 3;
     if(keyboard[52]) return 4;
     if(keyboard[53]) return 5;
@@ -61,12 +67,14 @@ Scene1.prototype.update = function(deltaTime){
 
     this.currentTime += deltaTime;
 
+    if(!this.arañaragedactive && !this.robotragedactive) this.timerToPickUpFruit += deltaTime;
 
     this.player.update(deltaTime);
     this.robotraged.update(deltaTime);
     this.arañaraged.update(deltaTime);
+    
 
-    if(this.previousTimeStamp == 0 || (this.currentTime - this.previousTimeStamp > 150)) {
+    if(this.previousTimeStamp == 0 || ((this.currentTime - this.previousTimeStamp) > 450)) {
         this.previousTimeStamp = this.currentTime; 
         this.checkshoot();
     }
@@ -81,9 +89,30 @@ Scene1.prototype.update = function(deltaTime){
     
     if(this.robotraged instanceof BubbleRobot && this.player.collisionBox().intersect(this.robotraged.collisionBox())){
         this.robotragedactive = false;
+        if(!this.fruitactive && !this.fruitPicked){
+            this.fruit = new Fruit(Math.floor(Math.random() * 449) + 32, Math.floor(Math.random() * 385) + 48, this.map);
+            this.fruitactive = true;
+        }
+        this.fruit.update(deltaTime);
     }
+
+    if(this.fruitactive && this.player.collisionBox().intersect(this.fruit.collisionBox())){
+        this.fruitactive = false; 
+        this.fruitPicked = true;
+    }
+    
     if(this.arañaraged instanceof Bubble && this.player.collisionBox().intersect(this.arañaraged.collisionBox())){
         this.arañaragedactive = false;
+        if(!this.papaactive && !this.papaPicked){
+            this.papa = new Papa(Math.floor(Math.random() * 449) + 32, Math.floor(Math.random() * 385) + 48, this.map);
+            this.papaactive = true;
+        }
+        this.papa.update(deltaTime);
+    }
+
+    if(this.papaactive && this.player.collisionBox().intersect(this.papa.collisionBox())){
+        this.papaactive = false; 
+        this.papaPicked = true;
     }
 
     this.bombolles.forEach(element => {
@@ -96,6 +125,7 @@ Scene1.prototype.update = function(deltaTime){
             this.bombolles.delete(element);
         }
     });
+    
     
     return this.checkActualLevel();
 }
@@ -125,6 +155,12 @@ Scene1.prototype.draw = function (){
         if(element.isDrawable()) 
             element.draw();
     });
+
+    if(this.fruitactive)
+        this.fruit.draw(); 
+
+    if(this.papaactive)
+        this.papa.draw(); 
     
 	this.player.draw();
     
