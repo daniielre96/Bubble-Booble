@@ -13,20 +13,17 @@ function Bubble(x, y)
 	this.sprite.addKeyframe(0, [32, 0, 16, 16]);
 	this.sprite.addKeyframe(0, [48, 0, 16, 16]);
 
-	this.isDeleted = false;
-}
-
-Bubble.prototype.isDeleted = function(){
-	return this.isDeleted;
-}
-
-Bubble.prototype.deleteSpider = function(){
-	this.isDeleted = true;
+	this.timer = 0;
 }
 
 Bubble.prototype.update = function update(deltaTime)
 {
+	this.timer += deltaTime;
 	this.sprite.update(deltaTime);
+}
+
+Bubble.prototype.getTimer = function(){
+	return this.timer;
 }
 
 Bubble.prototype.draw = function draw()

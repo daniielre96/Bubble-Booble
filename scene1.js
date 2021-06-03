@@ -44,6 +44,20 @@ Scene1.prototype.checkActualLevel = function(){
     return 1;
 }
 
+Scene1.prototype.checkRobot = function(){
+
+    if(this.robotraged instanceof BubbleRobot && this.robotraged.getTimer() > 10000){
+        this.robotraged = new Robot(this.robotraged.sprite.x, this.robotraged.sprite.y, this.map);
+    }
+}
+
+Scene1.prototype.checkSpider = function(){
+
+    if(this.arañaraged instanceof Bubble && this.arañaraged.getTimer() > 10000){
+        this.arañaraged = new Araña(this.arañaraged.sprite.x, this.arañaraged.sprite.y, this.map);
+    }
+}
+
 Scene1.prototype.update = function(deltaTime){
 
     this.currentTime += deltaTime;
@@ -55,8 +69,12 @@ Scene1.prototype.update = function(deltaTime){
 
     if(this.previousTimeStamp == 0 || (this.currentTime - this.previousTimeStamp > 150)) {
         this.previousTimeStamp = this.currentTime; 
-        this.checkshoot(); 
+        this.checkshoot();
     }
+
+    this.checkRobot();
+
+    this.checkSpider();
 
     this.bombolles.forEach(element => {
         element.update(deltaTime);
@@ -68,11 +86,11 @@ Scene1.prototype.update = function(deltaTime){
         this.arañaragedactive = false;
 
     this.bombolles.forEach(element => {
-        if(element.collisionBox().intersect(this.robotraged.collisionBox())){
+        if(element.collisionBox().intersect(this.robotraged.collisionBox()) && this.robotraged instanceof Robot){
             this.robotraged = new BubbleRobot(this.robotraged.sprite.x, this.robotraged.sprite.y, this.map); // convertim robot
             this.bombolles.delete(element);
         }
-        if(element.collisionBox().intersect(this.arañaraged.collisionBox())){
+        if(element.collisionBox().intersect(this.arañaraged.collisionBox()) && this.arañaraged instanceof Araña){
             this.arañaraged = new Bubble(this.arañaraged.sprite.x, this.arañaraged.sprite.y); // convertim spider
             this.bombolles.delete(element);
         }

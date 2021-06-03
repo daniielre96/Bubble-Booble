@@ -20,18 +20,14 @@ function Robot(x, y, map)
 
     this.sprite.setAnimation(ROBOT_MOV_RIGHT);
 
-    this.map = map; 
-    
-    
-    /*if(!this.map.collsionMoveDown(this.Sprite)){
-        this.sprite.y -= 2;
-    }*/
+    this.map = map;
 }
 
 
 
 Robot.prototype.update = function update(deltaTime)
 {
+    
     this.sprite.y += 6;
     if(this.sprite.x < 464 && movingrightrob){
         this.sprite.x += 2;
