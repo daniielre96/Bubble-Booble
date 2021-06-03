@@ -12,6 +12,7 @@ function BubbleRobot(x, y)
 	this.sprite.addKeyframe(0, [16, 0, 16, 16]);
 
 	this.timer = 0;
+
 }
 
 BubbleRobot.prototype.update = function (deltaTime)

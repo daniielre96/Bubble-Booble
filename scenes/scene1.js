@@ -46,14 +46,14 @@ Scene1.prototype.checkActualLevel = function(){
 
 Scene1.prototype.checkRobot = function(){
 
-    if(this.robotraged instanceof BubbleRobot && this.robotraged.getTimer() > 10000){
+    if(this.robotraged instanceof BubbleRobot && this.robotraged.getTimer() > 5000 && this.robotragedactive){
         this.robotraged = new Robot(this.robotraged.sprite.x, this.robotraged.sprite.y, this.map);
     }
 }
 
 Scene1.prototype.checkSpider = function(){
 
-    if(this.arañaraged instanceof Bubble && this.arañaraged.getTimer() > 10000){
+    if(this.arañaraged instanceof Bubble && this.arañaraged.getTimer() > 5000 && this.arañaragedactive){
         this.arañaraged = new Araña(this.arañaraged.sprite.x, this.arañaraged.sprite.y, this.map);
     }
 }
@@ -80,9 +80,9 @@ Scene1.prototype.update = function(deltaTime){
         element.update(deltaTime);
     });
     
-    if(this.player.collisionBox().intersect(this.robotraged.collisionBox()))
+    if(this.robotraged instanceof BubbleRobot && this.player.collisionBox().intersect(this.robotraged.collisionBox()))
         this.robotragedactive = false;
-    if(this.player.collisionBox().intersect(this.arañaraged.collisionBox()))
+    if(this.arañaraged instanceof Bubble && this.player.collisionBox().intersect(this.arañaraged.collisionBox()))
         this.arañaragedactive = false;
 
     this.bombolles.forEach(element => {
@@ -123,7 +123,6 @@ Scene1.prototype.draw = function (){
     this.bombolles.forEach(element => {
         if(element.isDrawable()) 
             element.draw();
-
     });
     
 	this.player.draw();
