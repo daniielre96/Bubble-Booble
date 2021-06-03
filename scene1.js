@@ -10,20 +10,13 @@ function Scene1(){
 
     this.player = new Player(224, 240, this.map);
 
-    this.bubble = new Bubble(360, 112);
-    this.bubbleActive = true;
-
     this.robotraged = new Robot(300, 60, this.map);
     this.robotragedactive = true; 
 
     this.arañaraged = new Araña(120, 60, this.map);
     this.arañaragedactive = true; 
 
-    this.bubbleRobot = new BubbleRobot(400, 112, this.map);
-    this.bubbleRobotActive = true;
-
     this.bombolles = [];
-    this.shootactive = true; 
 
     this.currentTime = 0;
     this.previousTimeStamp = 0; 
@@ -32,16 +25,10 @@ function Scene1(){
 Scene1.prototype.checkshoot = function(){
     if(keyboard[32]){
         var shoot; 
-        if(this.player.positionright()){
-            shoot = new Shot(this.player.sprite.x - 16, this.player.sprite.y, 0);
-            this.shootactive = true; 
 
-        } 
-        else{
-            shoot = new Shot(this.player.sprite.x +16 , this.player.sprite.y, 1);
-            this.shootactive = true; 
+        if(this.player.positionright()) shoot = new Shot(this.player.sprite.x - 16, this.player.sprite.y, 0);
+        else shoot = new Shot(this.player.sprite.x +16 , this.player.sprite.y, 1);
 
-        } 
         this.bombolles.push(shoot);
     }
 }
@@ -63,10 +50,8 @@ Scene1.prototype.update = function(deltaTime){
 
 
     this.player.update(deltaTime);
-    this.bubble.update(deltaTime);
     this.robotraged.update(deltaTime);
     this.arañaraged.update(deltaTime);
-    this.bubbleRobot.update(deltaTime);
 
     if(this.previousTimeStamp == 0 || (this.currentTime - this.previousTimeStamp > 150)) {
         this.previousTimeStamp = this.currentTime; 
@@ -76,30 +61,22 @@ Scene1.prototype.update = function(deltaTime){
     this.bombolles.forEach(element => {
         element.update(deltaTime);
     });
-
-
     
-
-    if(this.player.collisionBox().intersect(this.bubble.collisionBox()))
-        this.bubbleActive = false;
     if(this.player.collisionBox().intersect(this.robotraged.collisionBox()))
         this.robotragedactive = false;
     if(this.player.collisionBox().intersect(this.arañaraged.collisionBox()))
         this.arañaragedactive = false;
-    if(this.player.collisionBox().intersect(this.bubbleRobot.collisionBox()))
-        this.bubbleRobotActive = false;
 
     this.bombolles.forEach(element => {
-        if(element.collisionBox().intersect(this.robotraged.collisionBox()))
-            this.robotragedactive = false; 
-            this.shootactive = false; 
-
-    })
-    this.bombolles.forEach(element => {
-        if(element.collisionBox().intersect(this.arañaraged.collisionBox()))
-        this.arañaragedactive = false; 
-    })
-    
+        if(element.collisionBox().intersect(this.robotraged.collisionBox())){
+            this.robotraged = new BubbleRobot(this.robotraged.sprite.x, this.robotraged.sprite.y, this.map); // convertim robot
+            element.disable();
+        }
+        if(element.collisionBox().intersect(this.arañaraged.collisionBox())){
+            this.arañaraged = new Bubble(this.arañaraged.sprite.x, this.arañaraged.sprite.y); // convertim spider
+            element.disable();
+        }
+    });
     
     return this.checkActualLevel();
 }
@@ -118,21 +95,15 @@ Scene1.prototype.draw = function (){
 	this.map.draw();
 
 	// Draw entities
-	if(this.bubbleActive)
-		this.bubble.draw();
 
 	if(this.robotragedactive)
 		this.robotraged.draw();
 
     if(this.arañaragedactive)
 		this.arañaraged.draw();
-
-    if(this.bubbleRobotActive)
-        this.bubbleRobot.draw();
-    
     
     this.bombolles.forEach(element => {
-            element.draw();
+        if(element.isDrawable()) element.draw();
     });
     
 	this.player.draw();

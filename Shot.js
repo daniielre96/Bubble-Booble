@@ -14,11 +14,18 @@ function Shot(x, y, direction)
 	this.sprite.addAnimation();
 	this.sprite.addKeyframe(0, [0, 0, 16, 16]);
     
-
+	this.drawable = true;
 }
 
+Shot.prototype.disable = function (){
+	this.drawable = false;
+}
 
-Shot.prototype.update = function update(deltaTime)
+Shot.prototype.isDrawable = function (){
+	return this.drawable;
+}
+
+Shot.prototype.update = function (deltaTime)
 {
     if(this.direction == 0)
         this.sprite.x -= 8; 
@@ -26,12 +33,12 @@ Shot.prototype.update = function update(deltaTime)
 	this.sprite.update(deltaTime);
 }
 
-Shot.prototype.draw = function draw()
+Shot.prototype.draw = function ()
 {
 	this.sprite.draw();
 }
 
-Shot.prototype.collisionBox = function()
+Shot.prototype.collisionBox = function ()
 {
 	var box = new Box(this.sprite.x + 2, this.sprite.y + 2, this.sprite.x + this.sprite.width - 4, this.sprite.y + this.sprite.height - 4);
 	
