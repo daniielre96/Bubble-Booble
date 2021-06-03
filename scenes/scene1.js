@@ -1,6 +1,5 @@
 // Scene 1
 
-
 function Scene1(){
 
     // Loading texture to use in a TileMap
@@ -19,7 +18,7 @@ function Scene1(){
     this.bombolles = new Set();
 
     this.currentTime = 0;
-    this.previousTimeStamp = 0; 
+    this.previousTimeStamp = 0;
 }
 
 Scene1.prototype.checkshoot = function(){
@@ -36,7 +35,7 @@ Scene1.prototype.checkshoot = function(){
 Scene1.prototype.checkActualLevel = function(){
 
     if(keyboard[27]) return 0;
-    if(keyboard[50]) return 2;
+    if(keyboard[50] || !this.arañaragedactive && !this.robotragedactive) return 2;
     if(keyboard[51]) return 3;
     if(keyboard[52]) return 4;
     if(keyboard[53]) return 5;
@@ -80,10 +79,12 @@ Scene1.prototype.update = function(deltaTime){
         element.update(deltaTime);
     });
     
-    if(this.robotraged instanceof BubbleRobot && this.player.collisionBox().intersect(this.robotraged.collisionBox()))
+    if(this.robotraged instanceof BubbleRobot && this.player.collisionBox().intersect(this.robotraged.collisionBox())){
         this.robotragedactive = false;
-    if(this.arañaraged instanceof Bubble && this.player.collisionBox().intersect(this.arañaraged.collisionBox()))
+    }
+    if(this.arañaraged instanceof Bubble && this.player.collisionBox().intersect(this.arañaraged.collisionBox())){
         this.arañaragedactive = false;
+    }
 
     this.bombolles.forEach(element => {
         if(element.collisionBox().intersect(this.robotraged.collisionBox()) && this.robotraged instanceof Robot){
