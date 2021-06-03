@@ -16,7 +16,7 @@ function Scene1(){
     this.arañaraged = new Araña(120, 60, this.map);
     this.arañaragedactive = true; 
 
-    this.bombolles = [];
+    this.bombolles = new Set();
 
     this.currentTime = 0;
     this.previousTimeStamp = 0; 
@@ -29,7 +29,7 @@ Scene1.prototype.checkshoot = function(){
         if(this.player.positionright()) shoot = new Shot(this.player.sprite.x - 16, this.player.sprite.y, 0);
         else shoot = new Shot(this.player.sprite.x +16 , this.player.sprite.y, 1);
 
-        this.bombolles.push(shoot);
+        this.bombolles.add(shoot);
     }
 }
 
@@ -70,11 +70,11 @@ Scene1.prototype.update = function(deltaTime){
     this.bombolles.forEach(element => {
         if(element.collisionBox().intersect(this.robotraged.collisionBox())){
             this.robotraged = new BubbleRobot(this.robotraged.sprite.x, this.robotraged.sprite.y, this.map); // convertim robot
-            element.disable();
+            this.bombolles.delete(element);
         }
         if(element.collisionBox().intersect(this.arañaraged.collisionBox())){
             this.arañaraged = new Bubble(this.arañaraged.sprite.x, this.arañaraged.sprite.y); // convertim spider
-            element.disable();
+            this.bombolles.delete(element);
         }
     });
     

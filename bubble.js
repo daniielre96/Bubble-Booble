@@ -12,8 +12,17 @@ function Bubble(x, y)
 	this.sprite.addKeyframe(0, [16, 0, 16, 16]);
 	this.sprite.addKeyframe(0, [32, 0, 16, 16]);
 	this.sprite.addKeyframe(0, [48, 0, 16, 16]);
+
+	this.isDeleted = false;
 }
 
+Bubble.prototype.isDeleted = function(){
+	return this.isDeleted;
+}
+
+Bubble.prototype.deleteSpider = function(){
+	this.isDeleted = true;
+}
 
 Bubble.prototype.update = function update(deltaTime)
 {

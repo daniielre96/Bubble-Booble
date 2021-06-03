@@ -15,12 +15,7 @@ function Araña(x, y, map)
 
     this.sprite.setAnimation(ARAÑA_MOV);
 
-    this.map = map; 
-    
-    
-    /*if(!this.map.collsionMoveDown(this.Sprite)){
-        this.sprite.y -= 2;
-    }*/
+    this.map = map;
 }
 
 

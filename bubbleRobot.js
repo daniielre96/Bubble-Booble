@@ -10,15 +10,24 @@ function BubbleRobot(x, y)
 	this.sprite.addAnimation();
 	this.sprite.addKeyframe(0, [0, 0, 16, 16]);
 	this.sprite.addKeyframe(0, [16, 0, 16, 16]);
+
+	this.isDeleted = false;
 }
 
+BubbleRobot.prototype.deleteRobot = function(){
+	this.isDeleted = true;
+}
 
-BubbleRobot.prototype.update = function update(deltaTime)
+BubbleRobot.prototype.isDeleted = function(){
+	return this.isDeleted;
+}
+
+BubbleRobot.prototype.update = function (deltaTime)
 {
 	this.sprite.update(deltaTime);
 }
 
-BubbleRobot.prototype.draw = function draw()
+BubbleRobot.prototype.draw = function ()
 {
 	this.sprite.draw();
 }
