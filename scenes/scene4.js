@@ -71,11 +71,11 @@ Scene4.prototype.checkSpider = function(){
 Scene4.prototype.checkColisionPlayerWithEnemy = function(){
 
     if(this.arañaraged instanceof Araña && this.player.collisionBox().intersect(this.arañaraged.collisionBox())){
-        this.gameOver = true;
+        if(!goodMode) this.gameOver = true;
     }
 
     if(this.robotraged instanceof Robot && this.player.collisionBox().intersect(this.robotraged.collisionBox())){
-        this.gameOver = true;
+        if(!goodMode) this.gameOver = true;
     }
 }
 

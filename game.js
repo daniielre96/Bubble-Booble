@@ -12,6 +12,7 @@ var levels = [level1, level2, level3, level4, level5];
 var actualScreen;
 var music;
 var musicEnabled;
+var goodMode;
 
 
 // Control keyboard events
@@ -20,6 +21,7 @@ function keyDown(keycode)
 {
 	if(keycode.which >= 0 && keycode.which < 256)
 		keyboard[keycode.which] = true;
+		if(keycode.which == 71) goodMode = !goodMode;
 }
 
 function keyUp(keycode)
@@ -47,6 +49,7 @@ function init()
 	actualScreen = 0;
 	music = AudioFX('sounds/Main Theme.mp3', { loop: true });
 	musicEnabled = false;
+	goodMode = false;
 }
 
 function updateScreen(newScreen){
