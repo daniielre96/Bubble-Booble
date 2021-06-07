@@ -92,15 +92,17 @@ Player.prototype.update = function(deltaTime)
 	{
 		if(this.sprite.currentAnimation != BUB_WALK_LEFT)
 			this.sprite.setAnimation(BUB_WALK_LEFT);
-		if(!this.map.collisionMoveLeft(this.sprite) && this.sprite.x >= 2)
-			this.sprite.x -= 4;
+		this.sprite.x -= 4; 	
+		if(this.map.collisionMoveLeft(this.sprite))
+			this.sprite.x += 4;
 	}
 	else if(keyboard[39]) // KEY_RIGHT
 	{
 		if(this.sprite.currentAnimation != BUB_WALK_RIGHT)
 			this.sprite.setAnimation(BUB_WALK_RIGHT);
-		if(!this.map.collisionMoveRight(this.sprite) && this.sprite.x < 478)
-			this.sprite.x += 4;
+		this.sprite.x += 4; 
+		if(this.map.collisionMoveRight(this.sprite))
+			this.sprite.x -= 4;
 	}
 	else if(keyboard[32]) // KEY_SHOOT
 	{

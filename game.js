@@ -52,6 +52,8 @@ function init()
 function updateScreen(newScreen){
 
 	if(actualScreen != newScreen){
+		
+		if(newScreen == 9) scene = new Congrats(actualScreen); 
 		actualScreen = newScreen;
 
 		if(actualScreen == 0) scene = new Menu();
@@ -72,6 +74,7 @@ function updateScreen(newScreen){
 				musicEnabled = true;
 			}
 		}
+		
 
 	}
 }

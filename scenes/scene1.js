@@ -12,6 +12,7 @@ function Scene1(){
     this.robotraged = new Robot(300, 60, this.map);
     this.robotragedactive = true; 
 
+
     this.arañaraged = new Araña(120, 60, this.map);
     this.arañaragedactive = true; 
 
@@ -41,7 +42,7 @@ Scene1.prototype.checkshoot = function(){
 Scene1.prototype.checkActualLevel = function(){
 
     if(keyboard[27]) return 0;
-    if(keyboard[50] || ((!this.arañaragedactive && !this.robotragedactive && ((this.timerToPickUpFruit) > 10000))) || (!this.arañaragedactive && !this.robotragedactive && !this.fruitactive && !this.papaactive)) return 2;
+    if(keyboard[50] || ((!this.arañaragedactive && !this.robotragedactive && ((this.timerToPickUpFruit) > 10000))) || (!this.arañaragedactive && !this.robotragedactive && !this.fruitactive && !this.papaactive)) return 9;
     if(keyboard[51]) return 3;
     if(keyboard[52]) return 4;
     if(keyboard[53]) return 5;
@@ -74,7 +75,7 @@ Scene1.prototype.update = function(deltaTime){
     this.arañaraged.update(deltaTime);
     
 
-    if(this.previousTimeStamp == 0 || ((this.currentTime - this.previousTimeStamp) > 450)) {
+    if(this.previousTimeStamp == 0 || ((this.currentTime - this.previousTimeStamp) > 250)) {
         this.previousTimeStamp = this.currentTime; 
         this.checkshoot();
     }
@@ -161,6 +162,7 @@ Scene1.prototype.draw = function (){
 
     if(this.papaactive)
         this.papa.draw(); 
+    
     
 	this.player.draw();
     
