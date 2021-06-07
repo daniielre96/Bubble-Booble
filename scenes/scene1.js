@@ -26,6 +26,8 @@ function Scene1(){
     this.currentTime = 0;
     this.previousTimeStamp = 0;
     this.timerToPickUpFruit = 0;
+
+    this.gameOver = false;
 }
 
 Scene1.prototype.checkshoot = function(){
@@ -40,6 +42,8 @@ Scene1.prototype.checkshoot = function(){
 }
 
 Scene1.prototype.checkActualLevel = function(){
+
+    if(this.gameOver) return 10;
 
     if(keyboard[27]) return 0;
     if(keyboard[50] || ((!this.arañaragedactive && !this.robotragedactive && ((this.timerToPickUpFruit) > 10000))) || (!this.arañaragedactive && !this.robotragedactive && !this.fruitactive && !this.papaactive)) return 9;
@@ -64,6 +68,17 @@ Scene1.prototype.checkSpider = function(){
     }
 }
 
+Scene1.prototype.checkColisionPlayerWithEnemy = function(){
+
+    if(this.arañaraged instanceof Araña && this.player.collisionBox().intersect(this.arañaraged.collisionBox())){
+        this.gameOver = true;
+    }
+
+    if(this.robotraged instanceof Robot && this.player.collisionBox().intersect(this.robotraged.collisionBox())){
+        this.gameOver = true;
+    }
+}
+
 Scene1.prototype.update = function(deltaTime){
 
     this.currentTime += deltaTime;
@@ -79,6 +94,8 @@ Scene1.prototype.update = function(deltaTime){
         this.previousTimeStamp = this.currentTime; 
         this.checkshoot();
     }
+
+    this.checkColisionPlayerWithEnemy();
 
     this.checkRobot();
 

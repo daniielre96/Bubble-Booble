@@ -74,6 +74,7 @@ function updateScreen(newScreen){
 				musicEnabled = true;
 			}
 		}
+		if(actualScreen == 10) scene = new GameOver();
 		
 
 	}
