@@ -12,14 +12,14 @@ GameOver.prototype.checkActualLevel = function(){
     return 10;
 }
 
-Credits.prototype.update = function(deltaTime){
+GameOver.prototype.update = function(deltaTime){
 
     this.currentTime += deltaTime;
 
     return this.checkActualLevel();
 }
 
-Credits.prototype.draw = function (){
+GameOver.prototype.draw = function (){
 
     // Get canvas object, then its context
 	var canvas = document.getElementById("game-layer");
