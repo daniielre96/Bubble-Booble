@@ -50,6 +50,7 @@ Scene5.prototype.checkActualLevel = function(){
     if(keyboard[51]) return 2;   
     if(keyboard[52]) return 3; 
     if(keyboard[53]) return 4; 
+    if(((!this.arañaragedactive && !this.robotragedactive && ((this.timerToPickUpFruit) > 10000))) || (!this.arañaragedactive && !this.robotragedactive && !this.fruitactive && !this.papaactive)) return 11;
 
     return 5;
 }

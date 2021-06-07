@@ -75,7 +75,7 @@ function updateScreen(newScreen){
 			}
 		}
 		if(actualScreen == 10) scene = new GameOver();
-		
+		if(actualScreen == 11) scene = new Win(); 		
 
 	}
 }

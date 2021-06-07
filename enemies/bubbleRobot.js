@@ -17,6 +17,10 @@ function BubbleRobot(x, y)
 
 BubbleRobot.prototype.update = function (deltaTime)
 {
+	if(this.sprite.y > 48){
+		this.sprite.y -= 4; 
+	}
+
 	this.timer += deltaTime;
 	this.sprite.update(deltaTime);
 }

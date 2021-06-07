@@ -34,8 +34,8 @@ Scene1.prototype.checkshoot = function(){
     if(keyboard[32]){
         var shoot; 
 
-        if(this.player.positionright()) shoot = new Shot(this.player.sprite.x - 16, this.player.sprite.y, 0);
-        else shoot = new Shot(this.player.sprite.x +16 , this.player.sprite.y, 1);
+        if(this.player.positionright()) shoot = new Shot(this.player.sprite.x - 20, this.player.sprite.y, 0);
+        else shoot = new Shot(this.player.sprite.x +20 , this.player.sprite.y, 1);
 
         this.bombolles.add(shoot);
     }
@@ -79,6 +79,23 @@ Scene1.prototype.checkColisionPlayerWithEnemy = function(){
     }
 }
 
+Scene1.prototype.checkShotsWalls = function (){
+
+    this.bombolles.forEach(element => {
+        if(element.leftDirection()){
+             if(this.map.collisionMoveLeft(element.sprite)){
+                element.activeGravity();
+             }
+        }
+        else{
+            if(this.map.collisionMoveRight(element.sprite)){
+                element.activeGravity();
+            }
+        }
+    });
+
+}
+
 Scene1.prototype.update = function(deltaTime){
 
     this.currentTime += deltaTime;
@@ -100,6 +117,8 @@ Scene1.prototype.update = function(deltaTime){
     this.checkRobot();
 
     this.checkSpider();
+
+    this.checkShotsWalls();
 
     this.bombolles.forEach(element => {
         element.update(deltaTime);
@@ -142,6 +161,11 @@ Scene1.prototype.update = function(deltaTime){
             this.arañaraged = new Bubble(this.arañaraged.sprite.x, this.arañaraged.sprite.y); // convertim spider
             this.bombolles.delete(element);
         }
+
+        if(this.player.collisionBox().intersect(element.collisionBox())) this.bombolles.delete(element);
+
+        if(element.readyToDelete()) this.bombolles.delete(element);
+
     });
     
     
@@ -170,8 +194,7 @@ Scene1.prototype.draw = function (){
 		this.arañaraged.draw();
     
     this.bombolles.forEach(element => {
-        if(element.isDrawable()) 
-            element.draw();
+            if(element.isDrawable()) element.draw();
     });
 
     if(this.fruitactive)

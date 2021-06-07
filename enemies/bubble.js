@@ -18,6 +18,9 @@ function Bubble(x, y)
 
 Bubble.prototype.update = function update(deltaTime)
 {
+	if(this.sprite.y > 48){
+		this.sprite.y -= 4; 
+	}
 	this.timer += deltaTime;
 	this.sprite.update(deltaTime);
 }

@@ -30,18 +30,6 @@ Araña.prototype.update = function update(deltaTime, posplayerx, posplayery)
 {
     this.sprite.y += 6;
      
-    /*if(this.sprite.x < 464 && movingrightaraña){
-        this.sprite.x += 2;
-        if(this.sprite.x >= 462){
-            movingrightaraña = false; 
-        }
-    }	
-    if(this.sprite.x >= 32 && !movingrightaraña){
-        this.sprite.x -= 2;
-        if(this.sprite.x <= 34){
-            movingrightaraña = true; 
-        }
-    }*/
     if(this.sprite.x <= posplayerx){
         this.sprite.x += 2; 
     }

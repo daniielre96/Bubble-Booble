@@ -62,7 +62,7 @@ Robot.prototype.draw = function draw()
 
 Robot.prototype.collisionBox = function()
 {
-	var box = new Box(this.sprite.x + 2, this.sprite.y + 2, this.sprite.x + this.sprite.width - 4, this.sprite.y + this.sprite.height - 4);
+	var box = new Box(this.sprite.x + 2, this.sprite.y, this.sprite.x + this.sprite.width - 4, this.sprite.y + this.sprite.height);
 	
 	return box;
 }
