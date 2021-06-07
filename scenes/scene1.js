@@ -72,7 +72,7 @@ Scene1.prototype.update = function(deltaTime){
 
     this.player.update(deltaTime);
     this.robotraged.update(deltaTime);
-    this.arañaraged.update(deltaTime);
+    this.arañaraged.update(deltaTime, this.player.sprite.x, this.player.sprite.y);
     
 
     if(this.previousTimeStamp == 0 || ((this.currentTime - this.previousTimeStamp) > 250)) {

@@ -15,15 +15,22 @@ function Araña(x, y, map)
 
     this.sprite.setAnimation(ARAÑA_MOV);
 
+    this.bJumping = false;
+	this.jumpAngle = 0;
+
     this.map = map;
 }
 
 
 
-Araña.prototype.update = function update(deltaTime)
+
+
+
+Araña.prototype.update = function update(deltaTime, posplayerx, posplayery)
 {
     this.sprite.y += 6;
-    if(this.sprite.x < 464 && movingrightaraña){
+     
+    /*if(this.sprite.x < 464 && movingrightaraña){
         this.sprite.x += 2;
         if(this.sprite.x >= 462){
             movingrightaraña = false; 
@@ -34,7 +41,51 @@ Araña.prototype.update = function update(deltaTime)
         if(this.sprite.x <= 34){
             movingrightaraña = true; 
         }
+    }*/
+    if(this.sprite.x <= posplayerx){
+        this.sprite.x += 2; 
     }
+    if(this.sprite.x >= posplayerx){
+        this.sprite.x -= 2; 
+    }
+    
+	if(this.sprite.y <= 48) this.bJumping = false;
+
+    if(this.bJumping)
+	{
+		
+		this.jumpAngle += 4;
+		if(this.jumpAngle == 180)
+		{
+			this.bJumping = false;
+			this.sprite.y = this.startY;
+		}
+		else
+		{
+			this.sprite.y = this.startY - 96 * Math.sin(3.14159 * this.jumpAngle / 180);
+			if(this.jumpAngle > 90)
+				this.bJumping = !this.map.collisionMoveDown(this.sprite);
+		}
+	}
+	else
+	{
+		// Move Bub so that it is affected by gravity
+		this.sprite.y += 6;
+		if(this.map.collisionMoveDown(this.sprite))
+		{
+			//this.sprite.y -= 2;
+
+			// Check arrow up key. If pressed, jump.
+			if(this.sprite.y > posplayery)
+			{
+				this.bJumping = true;
+				this.jumpAngle = 0;
+				this.startY = this.sprite.y;
+			}
+		}
+		
+	}
+    
     
     if(this.map.collisionMoveDown(this.sprite))
 			this.sprite.y -= 2;
