@@ -21,7 +21,7 @@ function Scene1(){
     this.papaactive = false;
     this.fruitactive = false;
     this.papaPicked = false;
-    this.fruitPicked = false;
+    this.fruitPicked = false; 
 
     this.currentTime = 0;
     this.previousTimeStamp = 0;
@@ -32,6 +32,7 @@ function Scene1(){
     this.timerToGameOver = 0;
 
     this.shootSound = AudioFX('sounds/shoot.wav', {loop: true});
+    this.deathSound = AudioFX('sounds/deathsound.mp3');
 }
 
 Scene1.prototype.checkshoot = function(){
@@ -81,6 +82,7 @@ Scene1.prototype.checkColisionPlayerWithEnemy = function(){
     if(this.arañaraged instanceof Araña && this.player.collisionBox().intersect(this.arañaraged.collisionBox())){
 
         if(!goodMode && !this.gameOver){ // dead
+            this.deathSound.play(); 
             if(this.timerToGameOver == 0) this.timerToGameOver = this.currentTime;
             if(this.player.positionright()) this.player.deathanimationright();
             else this.player.deathanimationleft();
@@ -90,6 +92,7 @@ Scene1.prototype.checkColisionPlayerWithEnemy = function(){
     if(this.robotraged instanceof Robot && this.player.collisionBox().intersect(this.robotraged.collisionBox())){
 
         if(!goodMode && !this.gameOver){ // dead
+            this.deathSound.play(); 
             if(this.timerToGameOver == 0) this.timerToGameOver = this.currentTime;
             if(this.player.positionright()) this.player.deathanimationright();
             else this.player.deathanimationleft();
@@ -98,6 +101,7 @@ Scene1.prototype.checkColisionPlayerWithEnemy = function(){
 
     if(this.timerToGameOver != 0 && ((this.currentTime - this.timerToGameOver) > 2000))
         this.gameOver = true;
+    
 }
 
 Scene1.prototype.checkShotsWalls = function (){
@@ -138,6 +142,7 @@ Scene1.prototype.update = function(deltaTime){
     this.player.update(deltaTime);
     this.robotraged.update(deltaTime);
     this.arañaraged.update(deltaTime, this.player.sprite.x, this.player.sprite.y);
+
     
 
     if(this.previousTimeStamp == 0 || ((this.currentTime - this.previousTimeStamp) > 250)) {
@@ -206,8 +211,10 @@ Scene1.prototype.update = function(deltaTime){
         if(element.readyToDelete()) this.bombolles.delete(element);
 
     });
+
     
     
+
     return this.checkActualLevel();
 }
 
