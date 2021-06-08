@@ -30,8 +30,6 @@ function Scene1(){
     this.gameOver = false;
 
     this.timerToGameOver = 0;
-
-    this.shootSound = AudioFX('sounds/shoot.wav', {loop: true});
 }
 
 Scene1.prototype.checkshoot = function(){
@@ -42,10 +40,6 @@ Scene1.prototype.checkshoot = function(){
         else shoot = new Shot(this.player.sprite.x +20 , this.player.sprite.y, 1);
 
         this.bombolles.add(shoot);
-        this.shootSound.play();
-    }
-    else{
-        this.shootSound.stop(); 
     }
 }
 

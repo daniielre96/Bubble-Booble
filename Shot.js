@@ -33,6 +33,7 @@ function Shot(x, y, direction)
 function Shot(x, y, direction, explode)
 {
 	var bubble = new Texture("imgs/Shot.png");
+	shootMusic.play();
 
 	// Prepare bubble sprite & its animation
 	this.sprite = new Sprite(x, y, 32, 32, 3, bubble);
