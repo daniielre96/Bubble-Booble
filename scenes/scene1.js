@@ -28,10 +28,12 @@ function Scene1(){
     this.timerToPickUpFruit = 0;
 
     this.gameOver = false;
+
+    this.timerToGameOver = 0;
 }
 
 Scene1.prototype.checkshoot = function(){
-    if(keyboard[32]){
+    if(keyboard[32] && this.timerToGameOver == 0){
         var shoot; 
 
         if(this.player.positionright()) shoot = new Shot(this.player.sprite.x - 20, this.player.sprite.y, 0);
@@ -71,12 +73,25 @@ Scene1.prototype.checkSpider = function(){
 Scene1.prototype.checkColisionPlayerWithEnemy = function(){
 
     if(this.arañaraged instanceof Araña && this.player.collisionBox().intersect(this.arañaraged.collisionBox())){
-        if(!goodMode) this.gameOver = true;
+
+        if(!goodMode && !this.gameOver){ // dead
+            if(this.timerToGameOver == 0) this.timerToGameOver = this.currentTime;
+            if(this.player.positionright()) this.player.deathanimationright();
+            else this.player.deathanimationleft();
+        }
     }
 
     if(this.robotraged instanceof Robot && this.player.collisionBox().intersect(this.robotraged.collisionBox())){
-        if(!goodMode) this.gameOver = true;
+
+        if(!goodMode && !this.gameOver){ // dead
+            if(this.timerToGameOver == 0) this.timerToGameOver = this.currentTime;
+            if(this.player.positionright()) this.player.deathanimationright();
+            else this.player.deathanimationleft();
+        }
     }
+
+    if(this.timerToGameOver != 0 && ((this.currentTime - this.timerToGameOver) > 2000))
+        this.gameOver = true;
 }
 
 Scene1.prototype.checkShotsWalls = function (){
@@ -94,6 +109,18 @@ Scene1.prototype.checkShotsWalls = function (){
         }
     });
 
+}
+
+Scene1.prototype.explodeRobotBubble = function () {
+
+    if(this.player.positionright()) this.robotraged = new Shot(this.robotraged.sprite.x, this.robotraged.sprite.y, 0, true);
+    else this.robotraged = new Shot(this.robotraged.sprite.x, this.robotraged.sprite.y, 1, true);
+}
+
+Scene1.prototype.explodeSpiderBubble = function () {
+
+    if(this.player.positionright()) this.arañaraged = new Shot(this.arañaraged.sprite.x, this.arañaraged.sprite.y, 0, true);
+    else this.arañaraged = new Shot(this.arañaraged.sprite.x, this.arañaraged.sprite.y, 1, true);
 }
 
 Scene1.prototype.update = function(deltaTime){
@@ -125,12 +152,15 @@ Scene1.prototype.update = function(deltaTime){
     });
     
     if(this.robotraged instanceof BubbleRobot && this.player.collisionBox().intersect(this.robotraged.collisionBox())){
-        this.robotragedactive = false;
+        this.explodeRobotBubble();
         if(!this.fruitactive && !this.fruitPicked){
             this.fruit = new Fruit(Math.floor(Math.random() * 449) + 32, Math.floor(Math.random() * 385) + 48, this.map);
             this.fruitactive = true;
         }
         this.fruit.update(deltaTime);
+    }
+    else{
+        if(this.robotraged instanceof Shot && this.robotraged.readyToDelete()) this.robotragedactive = false;
     }
 
     if(this.fruitactive && this.player.collisionBox().intersect(this.fruit.collisionBox())){
@@ -139,12 +169,15 @@ Scene1.prototype.update = function(deltaTime){
     }
     
     if(this.arañaraged instanceof Bubble && this.player.collisionBox().intersect(this.arañaraged.collisionBox())){
-        this.arañaragedactive = false;
+        this.explodeSpiderBubble();
         if(!this.papaactive && !this.papaPicked){
             this.papa = new Papa(Math.floor(Math.random() * 449) + 32, Math.floor(Math.random() * 385) + 48, this.map);
             this.papaactive = true;
         }
         this.papa.update(deltaTime);
+    }
+    else{
+        if(this.arañaraged instanceof Shot && this.arañaraged.readyToDelete()) this.arañaragedactive = false;
     }
 
     if(this.papaactive && this.player.collisionBox().intersect(this.papa.collisionBox())){
