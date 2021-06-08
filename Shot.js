@@ -30,6 +30,10 @@ function Shot(x, y, direction)
 	this.currentTime = 0;
 }
 
+Shot.prototype.explodeShot = function () {
+	this.currentTime = 5000;
+}
+
 Shot.prototype.rightDirection = function (){
 	return this.direction == 1;
 }
@@ -51,12 +55,16 @@ Shot.prototype.isDrawable = function (){
 }
 
 Shot.prototype.readyToDelete = function (){
+	return this.currentTime > 6000;
+}
+
+Shot.prototype.readyToExplode = function () {
 	return this.currentTime > 5000;
 }
 
 Shot.prototype.update = function (deltaTime)
 {
-	this.currentTime += deltaTime; 
+	this.currentTime += deltaTime;
 
 	if(!this.gravity){
 		if(this.direction == 0)
@@ -64,7 +72,11 @@ Shot.prototype.update = function (deltaTime)
     	else this.sprite.x += 8; 
 	}
 	else{
-		if(this.sprite.y > 48) this.sprite.y -= 4;
+		if(this.sprite.y > 48 && !this.readyToExplode()) this.sprite.y -= 4;
+	}
+
+	if(this.readyToExplode() && this.sprite.currentAnimation != SHOT_EXPLODE){
+		this.sprite.setAnimation(SHOT_EXPLODE);
 	}
 
 	this.sprite.update(deltaTime);

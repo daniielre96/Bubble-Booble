@@ -162,7 +162,7 @@ Scene1.prototype.update = function(deltaTime){
             this.bombolles.delete(element);
         }
 
-        if(this.player.collisionBox().intersect(element.collisionBox())) this.bombolles.delete(element);
+        if(this.player.collisionBox().intersect(element.collisionBox())) element.explodeShot();
 
         if(element.readyToDelete()) this.bombolles.delete(element);
 
