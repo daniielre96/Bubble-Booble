@@ -15,6 +15,7 @@ var shootMusic;
 var deathMusic;
 var musicEnabled;
 var goodMode;
+var score;
 
 
 // Control keyboard events
@@ -54,6 +55,7 @@ function init()
 	deathMusic = AudioFX('sounds/deathsound.mp3', {loop: false});
 	musicEnabled = false;
 	goodMode = false;
+	score = 0;
 }
 
 function updateScreen(newScreen){

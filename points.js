@@ -1,13 +1,13 @@
-const ONE_HUNDRED = 1; 
-const TWO_HUNDRED = 2; 
-const ONE_THOUSAND = 3; 
-const TWO_THOUSAND = 4; 
+const ONE_HUNDRED = 0; 
+const TWO_HUNDRED = 1; 
+const ONE_THOUSAND = 2; 
+const TWO_THOUSAND = 3;
 
 function Points(){
     
 }
 
-function Points(x, y, map)
+function Points(x, y, map, points)
 {
 	var points = new Texture("imgs/points.png");
 
@@ -26,29 +26,26 @@ function Points(x, y, map)
     this.sprite.addAnimation();
     this.sprite.addKeyframe(TWO_THOUSAND, [48,0,16,16]);
 
-    this.sprite.setAnimation(ONE_HUNDRED);
+    if(points == 100) this.sprite.setAnimation(ONE_HUNDRED);
+    if(points == 200) this.sprite.setAnimation(TWO_HUNDRED);
     
 	this.map = map; 
 }
 
-
-Points.prototype.centpuntsanimation = function(){
-    if(this.sprite.currentAnimation != ONE_HUNDRED) this.sprite.setAnimation(ONE_HUNDRED);
-}
-Points.prototype.docentspuntsanimation = function(){
-    if(this.sprite.currentAnimation != TWO_HUNDRED) this.sprite.setAnimation(TWO_HUNDRED);
-}
-
-
 Points.prototype.update = function (deltaTime)
 {
-    this.sprite.y -= 4; 
+    this.sprite.y -= 2; 
 	this.sprite.update(deltaTime);
 }
 
 Points.prototype.draw = function ()
 {
 	this.sprite.draw();
+}
+
+Points.prototype.readyToDelete = function (){
+
+    return this.sprite.y < 0;
 }
 
 Points.prototype.collisionBox = function ()

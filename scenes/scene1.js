@@ -193,13 +193,17 @@ Scene1.prototype.pickRewards = function(){
 
     this.fruits.forEach(element => {
         if(this.player.collisionBox().intersect(element.collisionBox())){
+            this.points.add(new Points(element.sprite.x, element.sprite.y, this.map, 100));
             this.fruits.delete(element);
+            score += 100;
         }
     });
 
     this.papas.forEach(element => {
         if(this.player.collisionBox().intersect(element.collisionBox())){
+            this.points.add(new Points(element.sprite.x, element.sprite.y, this.map, 200));
             this.papas.delete(element);
+            score += 200;
         }
     });
 }
@@ -225,12 +229,19 @@ Scene1.prototype.catchEnemies = function(){
             }
         });
 
-        if(this.player.collisionBox().intersect(bubble.collisionBox())) bubble.explodeShot();
+        if(this.player.collisionBox().intersect(bubble.collisionBox()) && !bubble.readyToExplode()) bubble.explodeShot();
 
         if(bubble.readyToDelete()) this.bombolles.delete(bubble);
 
     });
 
+}
+
+Scene1.prototype.deletePoints = function (){
+
+    this.points.forEach(point => {
+        if(point.readyToDelete()) this.points.delete(point);
+    });
 }
 
 Scene1.prototype.update = function(deltaTime){
@@ -272,6 +283,10 @@ Scene1.prototype.update = function(deltaTime){
         element.update(deltaTime);
     });
 
+    this.points.forEach(element => {
+        element.update(deltaTime);
+    });
+
     if(this.previousTimeStamp == 0 || ((this.currentTime - this.previousTimeStamp) > 250)) {
         this.previousTimeStamp = this.currentTime; 
         this.checkshoot();
@@ -291,7 +306,7 @@ Scene1.prototype.update = function(deltaTime){
 
     this.catchEnemies();
 
-    
+    this.deletePoints();
     
 
     return this.checkActualLevel();
@@ -306,6 +321,20 @@ Scene1.prototype.draw = function (){
 	// Clear background
 	context.fillStyle = "rgb(224, 224, 240)";
 	context.fillRect(0, 0, canvas.width, canvas.height);
+
+    // draw score
+
+    var text = "Score: " + score;
+    context.font = "24px Verdana";
+    var textSize = context.measureText(text);
+    context.fillStyle = "Red";
+    context.fillText(text, 10, 25);
+
+    var text = "GodMode: " + goodMode;
+    context.font = "24px Verdana";
+    var textSize = context.measureText(text);
+    context.fillStyle = "Red";
+    context.fillText(text, 320, 25);
 
 	// Draw tilemap
 	this.map.draw();
@@ -338,6 +367,10 @@ Scene1.prototype.draw = function (){
 
     this.papas.forEach(papa => {
         papa.draw();
+    });
+    
+    this.points.forEach(point =>{
+        point.draw();
     });
     
 	this.player.draw();
