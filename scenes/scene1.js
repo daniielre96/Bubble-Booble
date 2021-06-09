@@ -47,6 +47,7 @@ function Scene1(){
     this.timerToPickUpFruit = 0;
 
     this.gameOver = false;
+    this.hurryupActivated = false;
 
     this.timerToGameOver = 0;
 }
@@ -244,11 +245,21 @@ Scene1.prototype.deletePoints = function (){
     });
 }
 
+Scene1.prototype.hurryup = function(){
+    
+    if(this.timerToPickUpFruit != 0 && !this.hurryupActivated){
+        this.points.add(new Points(this.player.sprite.x, this.player.sprite.y - 30, this.map, 1));
+        this.hurryupActivated = true;
+    }
+}
+
 Scene1.prototype.update = function(deltaTime){
 
     this.currentTime += deltaTime;
 
     if(this.allEnemiesDead()) this.timerToPickUpFruit += deltaTime;
+
+    this.hurryup();
 
     // UPDATES
 
@@ -284,7 +295,7 @@ Scene1.prototype.update = function(deltaTime){
     });
 
     this.points.forEach(element => {
-        element.update(deltaTime);
+        element.update(deltaTime, this.player.sprite.x, this.player.sprite.y);
     });
 
     if(this.previousTimeStamp == 0 || ((this.currentTime - this.previousTimeStamp) > 250)) {
