@@ -13,6 +13,9 @@ function Fruit(x, y, map)
 	this.sprite.addKeyframe(0, [0, 0, 16, 16]);
     
 	this.map = map; 
+
+	this.fruitactive = false;
+	this.fruitPicked = false;
 }
 
 Fruit.prototype.disable = function (){

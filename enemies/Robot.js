@@ -21,6 +21,8 @@ function Robot(x, y, map)
     this.sprite.setAnimation(ROBOT_MOV_RIGHT);
 
     this.map = map;
+
+    this.robotActive = true;
 }
 
 

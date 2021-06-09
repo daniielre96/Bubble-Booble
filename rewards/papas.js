@@ -13,6 +13,9 @@ function Papa(x, y, map)
 	this.sprite.addKeyframe(0, [16, 0, 16, 16]);
     
 	this.map = map; 
+
+	this.papaactive = false;
+    this.papaPicked = false;
 }
 
 Papa.prototype.disable = function (){

@@ -7,21 +7,40 @@ function Scene1(){
 
     this.map = new Tilemap(tilesheet, [16, 16], [3, 2], [0, 32], level1);
 
-    this.player = new Player(224, 240, this.map);
+    this.player = new Player(224, 240, this.map); // player 
 
-    this.robotraged = new Robot(300, 60, this.map);
-    this.robotragedactive = true; 
+    // robots enemies
 
+    this.robots = new Set();
+    this.robots.add(new Robot(300, 60, this.map));
 
-    this.arañaraged = new Araña(120, 60, this.map);
-    this.arañaragedactive = true; 
+    // spider enemies //
+
+    this.spiders = new Set();
+    this.spiders.add(new Araña(120, 60, this.map));
+
+    // bubble robots
+
+    this.bubbleRobots = new Set();
+
+    // bubble spiders
+
+    this.bubbleSpiders = new Set();
+
+    // bubbles
 
     this.bombolles = new Set();
 
-    this.papaactive = false;
-    this.fruitactive = false;
-    this.papaPicked = false;
-    this.fruitPicked = false; 
+    // rewards
+
+    this.papas = new Set();
+
+    this.fruits = new Set();
+
+
+    // points
+
+    this.points = new Set();
 
     this.currentTime = 0;
     this.previousTimeStamp = 0;
@@ -36,11 +55,28 @@ Scene1.prototype.checkshoot = function(){
     if(keyboard[32] && this.timerToGameOver == 0){
         var shoot; 
 
-        if(this.player.positionright()) shoot = new Shot(this.player.sprite.x - 20, this.player.sprite.y, 0);
-        else shoot = new Shot(this.player.sprite.x +20 , this.player.sprite.y, 1);
+        if(this.player.positionright()){
+            shoot = new Shot(this.player.sprite.x - 27, this.player.sprite.y, 0);
+            if(this.map.collisionMoveLeft(shoot.sprite)) shoot = new Shot(this.player.sprite.x - 27, this.player.sprite.y, 0, true);
+        }
+        else{
+             shoot = new Shot(this.player.sprite.x + 27 , this.player.sprite.y, 1);
+              
+             if(this.map.collisionMoveRight(shoot.sprite)) shoot = new Shot(this.player.sprite.x + 27, this.player.sprite.y, 1, true);
+        }
 
         this.bombolles.add(shoot);
     }
+}
+
+Scene1.prototype.allEnemiesDead = function(){
+
+    return this.spiders.size == 0 && this.robots.size == 0 && this.bubbleRobots.size == 0 && this.bubbleSpiders.size == 0;
+}
+
+Scene1.prototype.allRewardsPicked = function(){
+
+    return this.fruits.size == 0 && this.papas.size == 0 && this.allEnemiesDead();
 }
 
 Scene1.prototype.checkActualLevel = function(){
@@ -48,7 +84,7 @@ Scene1.prototype.checkActualLevel = function(){
     if(this.gameOver) return 10;
 
     if(keyboard[27]) return 0;
-    if(keyboard[50] || ((!this.arañaragedactive && !this.robotragedactive && ((this.timerToPickUpFruit) > 10000))) || (!this.arañaragedactive && !this.robotragedactive && !this.fruitactive && !this.papaactive)) return 9;
+    if(keyboard[50] || ((this.allEnemiesDead() && ((this.timerToPickUpFruit) > 10000))) || (this.allRewardsPicked())) return 9;
     if(keyboard[51]) return 3;
     if(keyboard[52]) return 4;
     if(keyboard[53]) return 5;
@@ -58,39 +94,49 @@ Scene1.prototype.checkActualLevel = function(){
 
 Scene1.prototype.checkRobot = function(){
 
-    if(this.robotraged instanceof BubbleRobot && this.robotraged.getTimer() > 5000 && this.robotragedactive){
-        this.robotraged = new Robot(this.robotraged.sprite.x, this.robotraged.sprite.y, this.map);
-    }
+    this.bubbleRobots.forEach(element => {
+        if(element.getTimer() > 5000){
+            this.robots.add(new Robot(element.sprite.x, element.sprite.y, this.map));
+            this.bubbleRobots.delete(element);
+        }
+    });
 }
 
 Scene1.prototype.checkSpider = function(){
 
-    if(this.arañaraged instanceof Bubble && this.arañaraged.getTimer() > 5000 && this.arañaragedactive){
-        this.arañaraged = new Araña(this.arañaraged.sprite.x, this.arañaraged.sprite.y, this.map);
-    }
+    this.bubbleSpiders.forEach(element => {
+        if(element.getTimer() > 5000){
+            this.spiders.add(new Araña(element.sprite.x, element.sprite.y, this.map));
+            this.bubbleSpiders.delete(element);
+        }
+    });
 }
 
 Scene1.prototype.checkColisionPlayerWithEnemy = function(){
 
-    if(this.arañaraged instanceof Araña && this.player.collisionBox().intersect(this.arañaraged.collisionBox())){
-
-        if(!goodMode && !this.gameOver){ // dead
-            deathMusic.play();
-            if(this.timerToGameOver == 0) this.timerToGameOver = this.currentTime;
-            if(this.player.positionright()) this.player.deathanimationright();
-            else this.player.deathanimationleft();
+    this.spiders.forEach(element => {
+        if(this.player.collisionBox().intersect(element.collisionBox())){
+            if(!goodMode && !this.gameOver){ // dead
+                deathMusic.play();
+                if(this.timerToGameOver == 0) this.timerToGameOver = this.currentTime;
+                if(this.player.positionright()) this.player.deathanimationright();
+                else this.player.deathanimationleft();
+            }
+            return;
         }
-    }
+    });
 
-    if(this.robotraged instanceof Robot && this.player.collisionBox().intersect(this.robotraged.collisionBox())){
-
-        if(!goodMode && !this.gameOver){ // dead
-            deathMusic.play();
-            if(this.timerToGameOver == 0) this.timerToGameOver = this.currentTime;
-            if(this.player.positionright()) this.player.deathanimationright();
-            else this.player.deathanimationleft();
+    this.robots.forEach(element => {
+        if(this.player.collisionBox().intersect(element.collisionBox())){
+            if(!goodMode && !this.gameOver){ // dead
+                deathMusic.play();
+                if(this.timerToGameOver == 0) this.timerToGameOver = this.currentTime;
+                if(this.player.positionright()) this.player.deathanimationright();
+                else this.player.deathanimationleft();
+            }
+            return;
         }
-    }
+    });
 
     if(this.timerToGameOver != 0 && ((this.currentTime - this.timerToGameOver) > 2000))
         this.gameOver = true;
@@ -114,29 +160,117 @@ Scene1.prototype.checkShotsWalls = function (){
 
 }
 
-Scene1.prototype.explodeRobotBubble = function () {
+Scene1.prototype.explodeBubble = function(positionX, positionY){
 
-    if(this.player.positionright()) this.robotraged = new Shot(this.robotraged.sprite.x, this.robotraged.sprite.y, 0, true);
-    else this.robotraged = new Shot(this.robotraged.sprite.x, this.robotraged.sprite.y, 1, true);
+    if(this.player.positionright()) this.bombolles.add(new Shot(positionX, positionY, 0, true));
+    else this.bombolles.add(new Shot(positionX, positionY, 1, true));
 }
 
-Scene1.prototype.explodeSpiderBubble = function () {
+Scene1.prototype.createRewards = function (){
 
-    if(this.player.positionright()) this.arañaraged = new Shot(this.arañaraged.sprite.x, this.arañaraged.sprite.y, 0, true);
-    else this.arañaraged = new Shot(this.arañaraged.sprite.x, this.arañaraged.sprite.y, 1, true);
+    this.bubbleRobots.forEach(element => {
+
+        if(this.player.collisionBox().intersect(element.collisionBox())){
+            this.explodeBubble(element.sprite.x, element.sprite.y);
+            this.bubbleRobots.delete(element);
+            this.fruits.add(new Fruit(Math.floor(Math.random() * 449) + 32, Math.floor(Math.random() * 385) + 48, this.map));
+        }
+
+    });
+
+    this.bubbleSpiders.forEach(element => {
+        
+        if(this.player.collisionBox().intersect(element.collisionBox())){
+            this.explodeBubble(element.sprite.x, element.sprite.y);
+            this.bubbleSpiders.delete(element);
+            this.papas.add(new Papa(Math.floor(Math.random() * 449) + 32, Math.floor(Math.random() * 385) + 48, this.map));
+        }
+    });
+
+}
+
+Scene1.prototype.pickRewards = function(){
+
+    this.fruits.forEach(element => {
+        if(this.player.collisionBox().intersect(element.collisionBox())){
+            this.fruits.delete(element);
+        }
+    });
+
+    this.papas.forEach(element => {
+        if(this.player.collisionBox().intersect(element.collisionBox())){
+            this.papas.delete(element);
+        }
+    });
+}
+
+Scene1.prototype.catchEnemies = function(){
+
+    
+    this.bombolles.forEach(bubble => {
+
+        this.robots.forEach(robot => {
+            if(!bubble.readyToExplode() && bubble.collisionBox().intersect(robot.collisionBox())){
+                this.bubbleRobots.add(new BubbleRobot(robot.sprite.x, robot.sprite.y, this.map));
+                this.robots.delete(robot);
+                this.bombolles.delete(bubble);
+            }
+        });
+
+        this.spiders.forEach(spider => {
+            if(!bubble.readyToExplode() && bubble.collisionBox().intersect(spider.collisionBox())){
+                this.bubbleSpiders.add(new Bubble(spider.sprite.x, spider.sprite.y, this.map));
+                this.spiders.delete(spider);
+                this.bombolles.delete(bubble);
+            }
+        });
+
+        if(this.player.collisionBox().intersect(bubble.collisionBox())) bubble.explodeShot();
+
+        if(bubble.readyToDelete()) this.bombolles.delete(bubble);
+
+    });
+
 }
 
 Scene1.prototype.update = function(deltaTime){
 
     this.currentTime += deltaTime;
 
-    if(!this.arañaragedactive && !this.robotragedactive) this.timerToPickUpFruit += deltaTime;
+    if(this.allEnemiesDead()) this.timerToPickUpFruit += deltaTime;
+
+    // UPDATES
 
     this.player.update(deltaTime);
-    this.robotraged.update(deltaTime);
-    this.arañaraged.update(deltaTime, this.player.sprite.x, this.player.sprite.y);
+
+    this.robots.forEach(element => {
+        element.update(deltaTime);
+    });
+
+    this.spiders.forEach(element => {
+        element.update(deltaTime, this.player.sprite.x, this.player.sprite.y);
+    });
 
     
+    this.bombolles.forEach(element => {
+        element.update(deltaTime);
+    });
+
+    this.fruits.forEach(element => {
+        element.update(deltaTime);
+    });
+
+    this.papas.forEach(element => {
+        element.update(deltaTime);
+    });
+
+    this.bubbleRobots.forEach(element => {
+        element.update(deltaTime);
+    });
+
+    this.bubbleSpiders.forEach(element => {
+        element.update(deltaTime);
+    });
 
     if(this.previousTimeStamp == 0 || ((this.currentTime - this.previousTimeStamp) > 250)) {
         this.previousTimeStamp = this.currentTime; 
@@ -151,59 +285,11 @@ Scene1.prototype.update = function(deltaTime){
 
     this.checkShotsWalls();
 
-    this.bombolles.forEach(element => {
-        element.update(deltaTime);
-    });
-    
-    if(this.robotraged instanceof BubbleRobot && this.player.collisionBox().intersect(this.robotraged.collisionBox())){
-        this.explodeRobotBubble();
-        if(!this.fruitactive && !this.fruitPicked){
-            this.fruit = new Fruit(Math.floor(Math.random() * 449) + 32, Math.floor(Math.random() * 385) + 48, this.map);
-            this.fruitactive = true;
-        }
-        this.fruit.update(deltaTime);
-    }
-    else{
-        if(this.robotraged instanceof Shot && this.robotraged.readyToDelete()) this.robotragedactive = false;
-    }
+    this.createRewards();
 
-    if(this.fruitactive && this.player.collisionBox().intersect(this.fruit.collisionBox())){
-        this.fruitactive = false; 
-        this.fruitPicked = true;
-    }
-    
-    if(this.arañaraged instanceof Bubble && this.player.collisionBox().intersect(this.arañaraged.collisionBox())){
-        this.explodeSpiderBubble();
-        if(!this.papaactive && !this.papaPicked){
-            this.papa = new Papa(Math.floor(Math.random() * 449) + 32, Math.floor(Math.random() * 385) + 48, this.map);
-            this.papaactive = true;
-        }
-        this.papa.update(deltaTime);
-    }
-    else{
-        if(this.arañaraged instanceof Shot && this.arañaraged.readyToDelete()) this.arañaragedactive = false;
-    }
+    this.pickRewards();
 
-    if(this.papaactive && this.player.collisionBox().intersect(this.papa.collisionBox())){
-        this.papaactive = false; 
-        this.papaPicked = true;
-    }
-
-    this.bombolles.forEach(element => {
-        if(element.collisionBox().intersect(this.robotraged.collisionBox()) && this.robotraged instanceof Robot){
-            this.robotraged = new BubbleRobot(this.robotraged.sprite.x, this.robotraged.sprite.y, this.map); // convertim robot
-            this.bombolles.delete(element);
-        }
-        if(element.collisionBox().intersect(this.arañaraged.collisionBox()) && this.arañaraged instanceof Araña){
-            this.arañaraged = new Bubble(this.arañaraged.sprite.x, this.arañaraged.sprite.y); // convertim spider
-            this.bombolles.delete(element);
-        }
-
-        if(this.player.collisionBox().intersect(element.collisionBox())) element.explodeShot();
-
-        if(element.readyToDelete()) this.bombolles.delete(element);
-
-    });
+    this.catchEnemies();
 
     
     
@@ -226,22 +312,33 @@ Scene1.prototype.draw = function (){
 
 	// Draw entities
 
-	if(this.robotragedactive)
-		this.robotraged.draw();
-
-    if(this.arañaragedactive)
-		this.arañaraged.draw();
+    this.bubbleRobots.forEach(bubble => {
+        bubble.draw();
+    });
     
-    this.bombolles.forEach(element => {
-            if(element.isDrawable()) element.draw();
+    this.bubbleSpiders.forEach(bubble =>{
+        bubble.draw();
     });
 
-    if(this.fruitactive)
-        this.fruit.draw(); 
+	this.robots.forEach(robot => {
+        robot.draw();
+    });
 
-    if(this.papaactive)
-        this.papa.draw(); 
+    this.spiders.forEach(spider => {
+        spider.draw();
+    });
     
+    this.bombolles.forEach(element => {
+        element.draw();
+    });
+
+    this.fruits.forEach(fruit => {
+        fruit.draw();
+    });
+
+    this.papas.forEach(papa => {
+        papa.draw();
+    });
     
 	this.player.draw();
     

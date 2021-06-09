@@ -4,10 +4,10 @@ const ARAÑA_MOV = 0;
 
 function Araña(x, y, map)
 {
-	var robotraged = new Texture("imgs/ArañaSelected_Normal.png");
+	var spiderraged = new Texture("imgs/ArañaSelected_Normal.png");
 
 	// Prepare bubble sprite & its animation
-	this.sprite = new Sprite(x, y, 32, 32, 7, robotraged);
+	this.sprite = new Sprite(x, y, 32, 32, 7, spiderraged);
 
 	this.sprite.addAnimation();
 	this.sprite.addKeyframe(ARAÑA_MOV, [0, 0, 16, 16]);
@@ -19,6 +19,8 @@ function Araña(x, y, map)
 	this.jumpAngle = 0;
 
     this.map = map;
+
+	this.spiderActive = true;
 }
 
 
