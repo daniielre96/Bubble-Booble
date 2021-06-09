@@ -102,7 +102,7 @@ Player.prototype.update = function(deltaTime)
 				this.sprite.setAnimation(BUB_WALK_LEFT_SHOOT);
 			this.sprite.x -= 4;
 			if(this.map.collisionMoveLeft(this.sprite))
-			this.sprite.x += 4;
+				this.sprite.x += 4;
 		}
 		
 		else if(keyboard[39] && keyboard[32]){ //Key_Right and Shoot
