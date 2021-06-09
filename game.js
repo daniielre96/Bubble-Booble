@@ -12,6 +12,7 @@ var levels = [level1, level2, level3, level4, level5];
 var actualScreen;
 var music;
 var shootMusic;
+var deathMusic;
 var musicEnabled;
 var goodMode;
 
@@ -50,6 +51,7 @@ function init()
 	actualScreen = 0;
 	music = AudioFX('sounds/Main Theme.mp3', { loop: true });
 	shootMusic = AudioFX('sounds/shoot.wav', {loop: false });
+	deathMusic = AudioFX('sounds/deathsound.mp3', {loop: false});
 	musicEnabled = false;
 	goodMode = false;
 }

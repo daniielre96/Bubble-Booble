@@ -75,7 +75,7 @@ Scene1.prototype.checkColisionPlayerWithEnemy = function(){
     if(this.arañaraged instanceof Araña && this.player.collisionBox().intersect(this.arañaraged.collisionBox())){
 
         if(!goodMode && !this.gameOver){ // dead
-            this.deathSound.play(); 
+            deathMusic.play();
             if(this.timerToGameOver == 0) this.timerToGameOver = this.currentTime;
             if(this.player.positionright()) this.player.deathanimationright();
             else this.player.deathanimationleft();
@@ -85,7 +85,7 @@ Scene1.prototype.checkColisionPlayerWithEnemy = function(){
     if(this.robotraged instanceof Robot && this.player.collisionBox().intersect(this.robotraged.collisionBox())){
 
         if(!goodMode && !this.gameOver){ // dead
-            this.deathSound.play(); 
+            deathMusic.play();
             if(this.timerToGameOver == 0) this.timerToGameOver = this.currentTime;
             if(this.player.positionright()) this.player.deathanimationright();
             else this.player.deathanimationleft();
