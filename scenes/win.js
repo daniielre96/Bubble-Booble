@@ -3,6 +3,9 @@
 function Win(){
 
     this.currentTime = 0;
+    base_image = new Image();
+    base_image.src = 'imgs/win.jpg';
+    
 }
 
 Win.prototype.checkActualLevel = function(){
@@ -25,11 +28,19 @@ Win.prototype.draw = function (){
 	var canvas = document.getElementById("game-layer");
 	var context = canvas.getContext("2d");
 
-	// Clear background
+    var text = "Score: " + score;
+    context.font = "24px Verdana";
+    var textSize = context.measureText(text);
+    context.fillStyle = "Yellow";
+    context.fontweight = "Bold";
+    context.fillText(text, 200, 400);
 
-    base_image = new Image();
-    base_image.src = 'imgs/win.jpg';
+	// Clear background
     base_image.onload = function(){
         context.drawImage(base_image, 0, 0);
     }
+
+    
+    
+
 }

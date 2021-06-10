@@ -13,11 +13,13 @@ function Scene5(){
 
     this.robots = new Set();
     this.robots.add(new Robot(300, 60, this.map));
+    this.robots.add(new Robot(200, 60, this.map));
 
     // spider enemies //
 
     this.spiders = new Set();
     this.spiders.add(new Araña(120, 60, this.map));
+    this.spiders.add(new Araña(220, 60, this.map));
 
 
     // bubble robots
