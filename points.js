@@ -13,7 +13,7 @@ function Points(x, y, map, score)
 	var points = new Texture("imgs/points.png");
 
 	// Prepare bubble sprite & its animation
-	this.sprite = new Sprite(x, y, 32, 32, 3, points);
+	this.sprite = new Sprite(x, y, 64, 32, 3, points);
 
 	this.sprite.addAnimation();
 	this.sprite.addKeyframe(ONE_HUNDRED, [0, 0, 16, 16]);
