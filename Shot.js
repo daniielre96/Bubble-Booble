@@ -107,6 +107,7 @@ Shot.prototype.update = function (deltaTime)
 
 	if(this.readyToExplode() && this.sprite.currentAnimation != SHOT_EXPLODE){
 		this.sprite.setAnimation(SHOT_EXPLODE);
+		explodeBubbleMusic.play();
 	}
 
 	this.sprite.update(deltaTime);

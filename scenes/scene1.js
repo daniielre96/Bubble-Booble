@@ -85,7 +85,10 @@ Scene1.prototype.checkActualLevel = function(){
     if(this.gameOver) return 10;
 
     if(keyboard[27]) return 0;
-    if(keyboard[50] || ((this.allEnemiesDead() && ((this.timerToPickUpFruit) > 10000))) || (this.allRewardsPicked())) return 9;
+    if(keyboard[50] || ((this.allEnemiesDead() && ((this.timerToPickUpFruit) > 10000))) || (this.allRewardsPicked())){
+        passLevelMusic.play();
+        return 9;
+    }
     if(keyboard[51]) return 3;
     if(keyboard[52]) return 4;
     if(keyboard[53]) return 5;
@@ -99,6 +102,7 @@ Scene1.prototype.checkRobot = function(){
         if(element.getTimer() > 5000){
             this.robots.add(new Robot(element.sprite.x, element.sprite.y, this.map));
             this.bubbleRobots.delete(element);
+            explodeBubbleMusic.play();
         }
     });
 }
@@ -109,6 +113,7 @@ Scene1.prototype.checkSpider = function(){
         if(element.getTimer() > 5000){
             this.spiders.add(new Araña(element.sprite.x, element.sprite.y, this.map));
             this.bubbleSpiders.delete(element);
+            explodeBubbleMusic.play();
         }
     });
 }
@@ -196,6 +201,7 @@ Scene1.prototype.pickRewards = function(){
         if(this.player.collisionBox().intersect(element.collisionBox())){
             this.points.add(new Points(element.sprite.x, element.sprite.y, this.map, 100));
             this.fruits.delete(element);
+            pickUpMusic.play();
             score += 100;
         }
     });
@@ -204,6 +210,7 @@ Scene1.prototype.pickRewards = function(){
         if(this.player.collisionBox().intersect(element.collisionBox())){
             this.points.add(new Points(element.sprite.x, element.sprite.y, this.map, 200));
             this.papas.delete(element);
+            pickUpMusic.play();
             score += 200;
         }
     });
@@ -217,6 +224,7 @@ Scene1.prototype.catchEnemies = function(){
         this.robots.forEach(robot => {
             if(!bubble.readyToExplode() && bubble.collisionBox().intersect(robot.collisionBox())){
                 this.bubbleRobots.add(new BubbleRobot(robot.sprite.x, robot.sprite.y, this.map));
+                catchEnemyMusic.play();
                 this.robots.delete(robot);
                 this.bombolles.delete(bubble);
             }
@@ -225,12 +233,15 @@ Scene1.prototype.catchEnemies = function(){
         this.spiders.forEach(spider => {
             if(!bubble.readyToExplode() && bubble.collisionBox().intersect(spider.collisionBox())){
                 this.bubbleSpiders.add(new Bubble(spider.sprite.x, spider.sprite.y, this.map));
+                catchEnemyMusic.play();
                 this.spiders.delete(spider);
                 this.bombolles.delete(bubble);
             }
         });
 
-        if(this.player.collisionBox().intersect(bubble.collisionBox()) && !bubble.readyToExplode()) bubble.explodeShot();
+        if(this.player.collisionBox().intersect(bubble.collisionBox()) && !bubble.readyToExplode()){
+            bubble.explodeShot();
+        }
 
         if(bubble.readyToDelete()) this.bombolles.delete(bubble);
 
@@ -250,6 +261,7 @@ Scene1.prototype.hurryup = function(){
     if(this.timerToPickUpFruit != 0 && !this.hurryupActivated){
         this.points.add(new Points(this.player.sprite.x, this.player.sprite.y - 30, this.map, 1));
         this.hurryupActivated = true;
+        hurryUpMusic.play(); 
     }
 }
 

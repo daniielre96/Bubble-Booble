@@ -10,10 +10,18 @@ var keyboard = [];
 var interacted;
 var levels = [level1, level2, level3, level4, level5];
 var actualScreen;
+
+//Sounds 
 var music;
 var shootMusic;
 var deathMusic;
 var musicEnabled;
+var pickUpMusic;
+var catchEnemyMusic;
+var explodeBubbleMusic;
+var passLevelMusic;
+var hurryUpMusic;
+
 var goodMode;
 var score;
 
@@ -50,10 +58,18 @@ function init()
 	previousTimestamp = performance.now();
 	interacted = false;
 	actualScreen = 0;
+
+	// MUSIC 
 	music = AudioFX('sounds/Main Theme.mp3', { loop: true });
 	shootMusic = AudioFX('sounds/shoot.wav', {loop: false });
 	deathMusic = AudioFX('sounds/deathsound.mp3', {loop: false});
+	pickUpMusic = AudioFX('sounds/rewards_pickup.wav', {loop: false});
+	catchEnemyMusic = AudioFX('sounds/catch_enemy.wav', {loop: false});
+	explodeBubbleMusic = AudioFX('sounds/bubble_pop.wav', {loop: false});
+	passLevelMusic = AudioFX('sounds/next_level.wav', {loop: false});
+	hurryUpMusic = AudioFX('sounds/hurry_up.wav', {loop: false});
 	musicEnabled = false;
+
 	goodMode = false;
 	score = 0;
 }
