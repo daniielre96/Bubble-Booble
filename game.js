@@ -21,6 +21,8 @@ var catchEnemyMusic;
 var explodeBubbleMusic;
 var passLevelMusic;
 var hurryUpMusic;
+var badEndingMusic;
+var goodEndingMusic;
 
 var goodMode;
 var score;
@@ -68,6 +70,8 @@ function init()
 	explodeBubbleMusic = AudioFX('sounds/bubble_pop.wav', {loop: false});
 	passLevelMusic = AudioFX('sounds/next_level.wav', {loop: false});
 	hurryUpMusic = AudioFX('sounds/hurry_up.wav', {loop: false});
+	badEndingMusic = AudioFX('sounds/bad_ending.mp3', {loop: true});
+	goodEndingMusic = AudioFX('sounds/good_ending.mp3', {loop: true});
 	musicEnabled = false;
 
 	goodMode = false;

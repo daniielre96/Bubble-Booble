@@ -3,11 +3,16 @@
 function GameOver(){
 
     this.currentTime = 0;
+    music.stop();
+    badEndingMusic.play();
 }
 
 GameOver.prototype.checkActualLevel = function(){
 
-    if(keyboard[27]) return 0;
+    if(keyboard[27]){
+        badEndingMusic.stop();
+        return 0;
+    }
 
     return 10;
 }

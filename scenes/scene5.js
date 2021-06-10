@@ -203,19 +203,19 @@ Scene5.prototype.pickRewards = function(){
 
     this.fruits.forEach(element => {
         if(this.player.collisionBox().intersect(element.collisionBox())){
-            this.points.add(new Points(element.sprite.x, element.sprite.y, this.map, 100));
+            this.points.add(new Points(element.sprite.x, element.sprite.y, this.map, 1000));
             this.fruits.delete(element);
             pickUpMusic.play();
-            score += 100;
+            score += 1000;
         }
     });
 
     this.papas.forEach(element => {
         if(this.player.collisionBox().intersect(element.collisionBox())){
-            this.points.add(new Points(element.sprite.x, element.sprite.y, this.map, 200));
+            this.points.add(new Points(element.sprite.x, element.sprite.y, this.map, 2000));
             this.papas.delete(element);
             pickUpMusic.play();
-            score += 200;
+            score += 2000;
         }
     });
 }

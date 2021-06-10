@@ -5,12 +5,16 @@ function Win(){
     this.currentTime = 0;
     base_image = new Image();
     base_image.src = 'imgs/win.jpg';
-    
+    music.stop();
+    goodEndingMusic.play();
 }
 
 Win.prototype.checkActualLevel = function(){
 
-    if(keyboard[27]) return 0;
+    if(keyboard[27]){
+        goodEndingMusic.stop();
+        return 0;
+    }
 
     return 11;
 }
