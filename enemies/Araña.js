@@ -21,6 +21,7 @@ function Araña(x, y, map)
     this.map = map;
 
 	this.spiderActive = true;
+	this.movingrightspider = true; 
 }
 
 
@@ -31,50 +32,68 @@ function Araña(x, y, map)
 Araña.prototype.update = function update(deltaTime, posplayerx, posplayery)
 {
     this.sprite.y += 6;
-     
-    if(this.sprite.x <= posplayerx){
-        this.sprite.x += 2; 
-    }
-    if(this.sprite.x >= posplayerx){
-        this.sprite.x -= 2; 
-    }
-    
-	if(this.sprite.y <= 48) this.bJumping = false;
 
-    if(this.bJumping)
-	{
-		
-		this.jumpAngle += 4;
-		if(this.jumpAngle == 180)
+	if((Math.abs(this.sprite.x - posplayerx) + Math.abs(this.sprite.y - posplayery)) < 200){
+		if(this.sprite.x <= posplayerx){
+			this.sprite.x += 2; 
+		}
+		if(this.sprite.x >= posplayerx ){
+			this.sprite.x -= 2; 
+		}
+	
+    
+		if(this.sprite.y <= 48) this.bJumping = false;
+
+		if(this.bJumping)
 		{
-			this.bJumping = false;
-			this.sprite.y = this.startY;
+			
+			this.jumpAngle += 4;
+			if(this.jumpAngle == 180)
+			{
+				this.bJumping = false;
+				this.sprite.y = this.startY;
+			}
+			else
+			{
+				this.sprite.y = this.startY - 96 * Math.sin(3.14159 * this.jumpAngle / 180);
+				if(this.jumpAngle > 90)
+					this.bJumping = !this.map.collisionMoveDown(this.sprite);
+			}
 		}
 		else
 		{
-			this.sprite.y = this.startY - 96 * Math.sin(3.14159 * this.jumpAngle / 180);
-			if(this.jumpAngle > 90)
-				this.bJumping = !this.map.collisionMoveDown(this.sprite);
-		}
-	}
-	else
-	{
-		// Move Bub so that it is affected by gravity
-		this.sprite.y += 6;
-		if(this.map.collisionMoveDown(this.sprite))
-		{
-			//this.sprite.y -= 2;
-
-			// Check arrow up key. If pressed, jump.
-			if(this.sprite.y > posplayery)
+			// Move Bub so that it is affected by gravity
+			this.sprite.y += 6;
+			if(this.map.collisionMoveDown(this.sprite))
 			{
-				this.bJumping = true;
-				this.jumpAngle = 0;
-				this.startY = this.sprite.y;
+				//this.sprite.y -= 2;
+
+				// Check arrow up key. If pressed, jump.
+				if(this.sprite.y > posplayery)
+				{
+					this.bJumping = true;
+					this.jumpAngle = 0;
+					this.startY = this.sprite.y;
+				}
+			}
+			
+		}
+	}else{
+
+		if(this.sprite.x < 464 && this.movingrightspider){
+			this.sprite.x += 2;
+			if(this.sprite.x >= 462){
+				this.movingrightspider = false; 
+			}
+		}	
+		if(this.sprite.x >= 32 && !this.movingrightspider){
+			this.sprite.x -= 2;
+			if(this.sprite.x <= 34){
+				this.movingrightspider = true; 
 			}
 		}
-		
-	}
+
+	} 
     
     
     if(this.map.collisionMoveDown(this.sprite))

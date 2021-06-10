@@ -13,11 +13,12 @@ function Scene1(){
 
     this.robots = new Set();
     this.robots.add(new Robot(300, 60, this.map));
+    this.robots.add(new Robot(100, 260, this.map));
 
     // spider enemies //
 
     this.spiders = new Set();
-    this.spiders.add(new Araña(120, 60, this.map));
+    
 
     // bubble robots
 
@@ -85,9 +86,12 @@ Scene1.prototype.checkActualLevel = function(){
     if(this.gameOver) return 10;
 
     if(keyboard[27]) return 0;
-    if(keyboard[50] || ((this.allEnemiesDead() && ((this.timerToPickUpFruit) > 10000))) || (this.allRewardsPicked())){
-        passLevelMusic.play();
-        return 9;
+    if(((this.allEnemiesDead() && ((this.timerToPickUpFruit) > 10000))) || (this.allRewardsPicked())){
+        passLevelMusic.play(); 
+        return 9; 
+    }
+    if(keyboard[50]){
+      return 2; 
     }
     if(keyboard[51]) return 3;
     if(keyboard[52]) return 4;
