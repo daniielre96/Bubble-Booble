@@ -2,6 +2,8 @@
 
 function Menu(){
 
+    score = 0;
+
     this.currentTime = 0;
 }
 
