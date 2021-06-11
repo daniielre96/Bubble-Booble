@@ -315,7 +315,7 @@ Scene2.prototype.update = function(deltaTime){
         element.update(deltaTime, this.player.sprite.x, this.player.sprite.y);
     });
 
-    if(this.previousTimeStamp == 0 || ((this.currentTime - this.previousTimeStamp) > 250)) {
+    if(this.previousTimeStamp == 0 || ((this.currentTime - this.previousTimeStamp) > 500)) {
         this.previousTimeStamp = this.currentTime; 
         this.checkshoot();
     }

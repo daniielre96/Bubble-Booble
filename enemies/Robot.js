@@ -38,10 +38,10 @@ Robot.prototype.update = function update(deltaTime)
 
     this.timer += deltaTime;
 
-    if(this.sprite.x < 464 && this.movingrightrob){
+    if(this.sprite.x < 448 && this.movingrightrob){
         this.sprite.x += 2;
         if(this.sprite.currentAnimation!= ROBOT_MOV_RIGHT) this.sprite.setAnimation(ROBOT_MOV_RIGHT);
-        if(this.sprite.x >= 462){
+        if(this.sprite.x >= 446){
             this.movingrightrob = false; 
         }
     }	

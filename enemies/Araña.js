@@ -48,9 +48,9 @@ Araña.prototype.update = function update(deltaTime, posplayerx, posplayery)
 		}
 		else{
 			
-			if(this.sprite.x < 464 && this.movingrightspider){
+			if(this.sprite.x < 448 && this.movingrightspider){
 				this.sprite.x += 2;
-				if(this.sprite.x >= 462){
+				if(this.sprite.x >= 446){
 					this.movingrightspider = false; 
 				}
 			}	
@@ -100,9 +100,9 @@ Araña.prototype.update = function update(deltaTime, posplayerx, posplayery)
 		}
 	}else{
 
-		if(this.sprite.x < 464 && this.movingrightspider){
+		if(this.sprite.x < 448 && this.movingrightspider){
 			this.sprite.x += 2;
-			if(this.sprite.x >= 462){
+			if(this.sprite.x >= 446){
 				this.movingrightspider = false; 
 			}
 		}	
