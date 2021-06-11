@@ -60,11 +60,11 @@ Scene5.prototype.checkshoot = function(){
         var shoot; 
 
         if(this.player.positionright()){
-            shoot = new Shot(this.player.sprite.x - 27, this.player.sprite.y, 0);
+            shoot = new Shot(this.player.sprite.x - 27, this.player.sprite.y, 0, false);
             if(this.map.collisionMoveLeft(shoot.sprite)) shoot = new Shot(this.player.sprite.x - 27, this.player.sprite.y, 0, true);
         }
         else{
-             shoot = new Shot(this.player.sprite.x + 27 , this.player.sprite.y, 1);
+             shoot = new Shot(this.player.sprite.x + 27 , this.player.sprite.y, 1, false);
               
              if(this.map.collisionMoveRight(shoot.sprite)) shoot = new Shot(this.player.sprite.x + 27, this.player.sprite.y, 1, true);
         }
