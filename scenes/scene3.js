@@ -7,18 +7,21 @@ function Scene3(){
 
     this.map = new Tilemap(tilesheet, [16, 16], [3, 2], [0, 32], level3);
 
-    this.player = new Player(224, 240, this.map); // player 
+    this.player = new Player(200, 200, this.map); // player 
 
     // robots enemies
 
     this.robots = new Set();
     this.robots.add(new Robot(300, 60, this.map));
-    this.robots.add(new Robot(200, 60, this.map));
+    this.robots.add(new Robot(200, 260, this.map));
+    this.robots.add(new Robot(100, 360, this.map));
 
     // spider enemies //
 
     this.spiders = new Set();
     this.spiders.add(new Araña(120, 60, this.map));
+    this.spiders.add(new Araña(220, 260, this.map));
+    this.spiders.add(new Araña(320, 60, this.map));
 
 
     // bubble robots

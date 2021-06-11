@@ -14,6 +14,8 @@ function Scene1(){
     this.robots = new Set();
     this.robots.add(new Robot(300, 60, this.map));
     this.robots.add(new Robot(100, 260, this.map));
+    this.robots.add(new Robot(200, 300, this.map));
+    this.robots.add(new Robot(64, 400, this.map));
 
     // spider enemies //
 

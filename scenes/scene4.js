@@ -17,8 +17,12 @@ function Scene4(){
     // spider enemies //
 
     this.spiders = new Set();
+    this.spiders.add(new Araña(150, 30, this.map));
+    this.spiders.add(new Araña(220, 60, this.map));
     this.spiders.add(new Araña(250, 30, this.map));
     this.spiders.add(new Araña(320, 60, this.map));
+    this.spiders.add(new Araña(350, 30, this.map));
+    this.spiders.add(new Araña(48, 60, this.map));
 
 
     // bubble robots
