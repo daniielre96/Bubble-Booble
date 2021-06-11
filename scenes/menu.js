@@ -9,7 +9,11 @@ function Menu(){
 
 Menu.prototype.checkActualLevel = function(){
 
-    if(keyboard[49]) return 1;
+    if(keyboard[49]){
+        goodMode = false;
+        pause = false;
+        return 1;
+    }
     if(keyboard[50]) return 6;
     if(keyboard[51]) return 7;
     if(keyboard[52]) return 8;

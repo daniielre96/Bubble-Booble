@@ -275,69 +275,72 @@ Scene5.prototype.hurryup = function(){
 
 Scene5.prototype.update = function(deltaTime){
 
-    this.currentTime += deltaTime;
+    if(!pause){
 
-    if(this.allEnemiesDead()) this.timerToPickUpFruit += deltaTime;
+        this.currentTime += deltaTime;
 
-    this.hurryup();
+        if(this.allEnemiesDead()) this.timerToPickUpFruit += deltaTime;
 
-    // UPDATES
+        this.hurryup();
 
-    this.player.update(deltaTime);
+        // UPDATES
 
-    this.robots.forEach(element => {
-        element.update(deltaTime);
-    });
+        this.player.update(deltaTime);
 
-    this.spiders.forEach(element => {
-        element.update(deltaTime, this.player.sprite.x, this.player.sprite.y);
-    });
+        this.robots.forEach(element => {
+            element.update(deltaTime);
+        });
 
-    
-    this.bombolles.forEach(element => {
-        element.update(deltaTime);
-    });
+        this.spiders.forEach(element => {
+            element.update(deltaTime, this.player.sprite.x, this.player.sprite.y);
+        });
 
-    this.fruits.forEach(element => {
-        element.update(deltaTime);
-    });
+        
+        this.bombolles.forEach(element => {
+            element.update(deltaTime);
+        });
 
-    this.papas.forEach(element => {
-        element.update(deltaTime);
-    });
+        this.fruits.forEach(element => {
+            element.update(deltaTime);
+        });
 
-    this.bubbleRobots.forEach(element => {
-        element.update(deltaTime);
-    });
+        this.papas.forEach(element => {
+            element.update(deltaTime);
+        });
 
-    this.bubbleSpiders.forEach(element => {
-        element.update(deltaTime);
-    });
+        this.bubbleRobots.forEach(element => {
+            element.update(deltaTime);
+        });
 
-    this.points.forEach(element => {
-        element.update(deltaTime, this.player.sprite.x, this.player.sprite.y);
-    });
+        this.bubbleSpiders.forEach(element => {
+            element.update(deltaTime);
+        });
 
-    if(this.previousTimeStamp == 0 || ((this.currentTime - this.previousTimeStamp) > 500)) {
-        this.previousTimeStamp = this.currentTime; 
-        this.checkshoot();
+        this.points.forEach(element => {
+            element.update(deltaTime, this.player.sprite.x, this.player.sprite.y);
+        });
+
+        if(this.previousTimeStamp == 0 || ((this.currentTime - this.previousTimeStamp) > 500)) {
+            this.previousTimeStamp = this.currentTime; 
+            this.checkshoot();
+        }
+
+        this.checkColisionPlayerWithEnemy();
+
+        this.checkRobot();
+
+        this.checkSpider();
+
+        this.checkShotsWalls();
+
+        this.createRewards();
+
+        this.pickRewards();
+
+        this.catchEnemies();
+
+        this.deletePoints();
     }
-
-    this.checkColisionPlayerWithEnemy();
-
-    this.checkRobot();
-
-    this.checkSpider();
-
-    this.checkShotsWalls();
-
-    this.createRewards();
-
-    this.pickRewards();
-
-    this.catchEnemies();
-
-    this.deletePoints();
     
 
     return this.checkActualLevel();
@@ -408,5 +411,13 @@ Scene5.prototype.draw = function (){
     });
     
 	this.player.draw();
+
+    if(pause){
+        var text = "PAUSE";
+        context.font = "bold 50px Verdana";
+        var textSize = context.measureText(text);
+        context.fillStyle = "Red";
+        context.fillText(text, 256 - textSize.width/2, 224 + 12);
+    }
     
 }

@@ -25,6 +25,7 @@ var badEndingMusic;
 var goodEndingMusic;
 
 var goodMode;
+var pause;
 var score;
 
 
@@ -35,6 +36,7 @@ function keyDown(keycode)
 	if(keycode.which >= 0 && keycode.which < 256)
 		keyboard[keycode.which] = true;
 		if(keycode.which == 71) goodMode = !goodMode;
+		if(keycode.which == 80) pause = !pause;
 }
 
 function keyUp(keycode)
@@ -75,6 +77,7 @@ function init()
 	musicEnabled = false;
 
 	goodMode = false;
+	pause = false;
 	score = 0;
 }
 
