@@ -17,6 +17,7 @@ function Araña(x, y, map)
 
     this.bJumping = false;
 	this.jumpAngle = 0;
+	this.timer = 0;
 
     this.map = map;
 
@@ -33,14 +34,33 @@ Araña.prototype.update = function update(deltaTime, posplayerx, posplayery)
 {
     this.sprite.y += 6;
 
+	this.timer += deltaTime;
+
 	if((Math.abs(this.sprite.x - posplayerx) + Math.abs(this.sprite.y - posplayery)) < 200){
-		if(this.sprite.x <= posplayerx){
-			this.sprite.x += 2; 
+
+		if(this.sprite.y - 6 == posplayery){
+			if(this.sprite.x <= posplayerx){
+				this.sprite.x += 2; 
+			}
+			if(this.sprite.x >= posplayerx ){
+				this.sprite.x -= 2; 
+			}
 		}
-		if(this.sprite.x >= posplayerx ){
-			this.sprite.x -= 2; 
+		else{
+			
+			if(this.sprite.x < 464 && this.movingrightspider){
+				this.sprite.x += 2;
+				if(this.sprite.x >= 462){
+					this.movingrightspider = false; 
+				}
+			}	
+			if(this.sprite.x >= 32 && !this.movingrightspider){
+				this.sprite.x -= 2;
+				if(this.sprite.x <= 34){
+					this.movingrightspider = true; 
+				}
+			}
 		}
-	
     
 		if(this.sprite.y <= 48) this.bJumping = false;
 
@@ -91,6 +111,44 @@ Araña.prototype.update = function update(deltaTime, posplayerx, posplayery)
 			if(this.sprite.x <= 34){
 				this.movingrightspider = true; 
 			}
+		}
+
+		var randomTimer = Math.floor(Math.random() * 7000) + 3000; // between 3 and 7 seconds
+
+		if(this.sprite.y <= 48) this.bJumping = false;
+
+		if(this.bJumping){
+				
+			this.jumpAngle += 4;
+			if(this.jumpAngle == 180)
+			{
+				this.bJumping = false;
+				this.sprite.y = this.startY;
+			}
+			else
+			{
+				this.sprite.y = this.startY - 96 * Math.sin(3.14159 * this.jumpAngle / 180);
+				if(this.jumpAngle > 90)
+					this.bJumping = !this.map.collisionMoveDown(this.sprite);
+			}
+		}
+		else{
+			// Move Bub so that it is affected by gravity
+			this.sprite.y += 6;
+			if(this.map.collisionMoveDown(this.sprite))
+			{
+				//this.sprite.y -= 2;
+
+				// Check arrow up key. If pressed, jump.
+				if(this.timer > 3000 && this.timer > randomTimer)
+				{
+					this.bJumping = true;
+					this.jumpAngle = 0;
+					this.startY = this.sprite.y;
+					this.timer = 0;
+				}
+			}
+			
 		}
 
 	} 
