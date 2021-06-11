@@ -346,22 +346,25 @@ Scene5.prototype.draw = function (){
 	var context = canvas.getContext("2d");
 
 	// Clear background
-	context.fillStyle = "rgb(224, 224, 240)";
+	context.fillStyle = "rgb(0, 0, 0)";
 	context.fillRect(0, 0, canvas.width, canvas.height);
 
     // draw score
 
     var text = "Score: " + score;
-    context.font = "24px Verdana";
+    context.font = "bold 24px Verdana";
     var textSize = context.measureText(text);
-    context.fillStyle = "Red";
+    context.fillStyle = "Yellow";
     context.fillText(text, 10, 25);
 
-    var text = "GodMode: " + goodMode;
-    context.font = "24px Verdana";
-    var textSize = context.measureText(text);
-    context.fillStyle = "Red";
-    context.fillText(text, 320, 25);
+    if(goodMode){
+        var text = "GodMode";
+        context.font = "bold 24px Verdana";
+        var textSize = context.measureText(text);
+        context.fillStyle = "Yellow";
+        context.fillText(text, 380, 25);
+    }
+
 
 	// Draw tilemap
 	this.map.draw();
