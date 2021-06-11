@@ -226,7 +226,7 @@ Scene5.prototype.catchEnemies = function(){
     this.bombolles.forEach(bubble => {
 
         this.robots.forEach(robot => {
-            if(!bubble.readyToExplode() && bubble.collisionBox().intersect(robot.collisionBox())){
+            if(!bubble.hasGravity() && !bubble.readyToExplode() && bubble.collisionBox().intersect(robot.collisionBox())){
                 this.bubbleRobots.add(new BubbleRobot(robot.sprite.x, robot.sprite.y, this.map));
                 catchEnemyMusic.play();
                 this.robots.delete(robot);
@@ -235,7 +235,7 @@ Scene5.prototype.catchEnemies = function(){
         });
 
         this.spiders.forEach(spider => {
-            if(!bubble.readyToExplode() && bubble.collisionBox().intersect(spider.collisionBox())){
+            if(!bubble.hasGravity() && !bubble.readyToExplode() && bubble.collisionBox().intersect(spider.collisionBox())){
                 this.bubbleSpiders.add(new Bubble(spider.sprite.x, spider.sprite.y, this.map));
                 catchEnemyMusic.play();
                 this.spiders.delete(spider);

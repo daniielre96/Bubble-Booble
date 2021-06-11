@@ -85,6 +85,10 @@ Shot.prototype.readyToDelete = function (){
 	return this.currentTime > 6000;
 }
 
+Shot.prototype.hasGravity = function (){
+	return this.gravity == true;
+}
+
 Shot.prototype.readyToExplode = function () {
 	return this.currentTime > 5000;
 }
