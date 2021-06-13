@@ -209,6 +209,7 @@ Scene3.prototype.pickRewards = function(){
             this.fruits.delete(element);
             pickUpMusic.play();
             score += 100;
+            if(highScore == 0 || score >= highScore) highScore = score;
         }
     });
 
@@ -218,6 +219,7 @@ Scene3.prototype.pickRewards = function(){
             this.papas.delete(element);
             pickUpMusic.play();
             score += 200;
+            if(highScore == 0 || score >= highScore) highScore = score;
         }
     });
 }

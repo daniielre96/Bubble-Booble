@@ -27,6 +27,7 @@ var goodEndingMusic;
 var goodMode;
 var pause;
 var score;
+var highScore;
 
 
 // Control keyboard events
@@ -79,6 +80,7 @@ function init()
 	goodMode = false;
 	pause = false;
 	score = 0;
+	highScore = 0;
 }
 
 function updateScreen(newScreen){
