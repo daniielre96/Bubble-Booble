@@ -94,7 +94,7 @@ function updateScreen(newScreen){
 		if(actualScreen == 3) scene = new Scene3();
 		if(actualScreen == 4) scene = new Scene4();
 		if(actualScreen == 5) scene = new Scene5();
-		//if(actualScreen == 6) scene = new Instructions(); TO DO 
+		if(actualScreen == 6) scene = new Instructions(); 
 		if(actualScreen == 7) scene = new Credits();
 		if(actualScreen == 8){
 			if(musicEnabled){
