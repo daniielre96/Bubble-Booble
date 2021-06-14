@@ -33,6 +33,7 @@ Win.prototype.draw = function (){
 	var context = canvas.getContext("2d");
 
     var text = "Score: " + score;
+    context.textAlign = 'left';
     context.font = "24px Verdana";
     var textSize = context.measureText(text);
     context.fillStyle = "Yellow";

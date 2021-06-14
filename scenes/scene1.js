@@ -45,6 +45,12 @@ function Scene1(){
 
     this.points = new Set();
 
+    // layouts
+
+    this.score = new Score(5, 5);
+    this.highScore = new HighScore(256 - 80/2, 5);
+    this.godMode = new GodMode(450, 5);
+
     this.currentTime = 0;
     this.previousTimeStamp = 0;
     this.timerToPickUpFruit = 0;
@@ -319,6 +325,10 @@ Scene1.prototype.update = function(deltaTime){
             element.update(deltaTime, this.player.sprite.x, this.player.sprite.y);
         });
 
+        this.score.update();
+        this.highScore.update();
+        this.godMode.update();
+
         if(this.previousTimeStamp == 0 || ((this.currentTime - this.previousTimeStamp) > 500)) {
             this.previousTimeStamp = this.currentTime; 
             this.checkshoot();
@@ -357,18 +367,25 @@ Scene1.prototype.draw = function (){
 
     // draw score
 
-    var text = "Score: " + score;
-    context.font = "bold 24px Verdana";
+    var text = score;
+    context.textAlign = 'center';
+    context.font = "bold 10px Verdana";
     var textSize = context.measureText(text);
-    context.fillStyle = "Yellow";
-    context.fillText(text, 10, 25);
+    context.fillStyle = "White";
+    context.fillText(text, 25, 25);
+
+    var text = highScore;
+    context.textAlign = 'center';
+    context.font = "bold 10px Verdana";
+    var textSize = context.measureText(text);
+    context.fillStyle = "White";
+    context.fillText(text, 256, 25);
+
+    this.score.draw();
+    this.highScore.draw();
 
     if(goodMode){
-        var text = "GodMode";
-        context.font = "bold 24px Verdana";
-        var textSize = context.measureText(text);
-        context.fillStyle = "Yellow";
-        context.fillText(text, 380, 25);
+        this.godMode.draw();
     }
 
     	// Draw tilemap
@@ -412,6 +429,7 @@ Scene1.prototype.draw = function (){
 
     if(pause){
         var text = "PAUSE";
+        context.textAlign = 'left';
         context.font = "bold 50px Verdana";
         var textSize = context.measureText(text);
         context.fillStyle = "Red";
