@@ -114,7 +114,7 @@ Scene2.prototype.checkActualLevel = function(){
 Scene2.prototype.checkRobot = function(){
 
     this.bubbleRobots.forEach(element => {
-        if(element.getTimer() > 5000){
+        if(element.getTimer() > 7000){
             this.robots.add(new Robot(element.sprite.x, element.sprite.y, this.map));
             this.bubbleRobots.delete(element);
             explodeBubbleMusic.play();
@@ -125,7 +125,7 @@ Scene2.prototype.checkRobot = function(){
 Scene2.prototype.checkSpider = function(){
 
     this.bubbleSpiders.forEach(element => {
-        if(element.getTimer() > 5000){
+        if(element.getTimer() > 7000){
             this.spiders.add(new Araña(element.sprite.x, element.sprite.y, this.map));
             this.bubbleSpiders.delete(element);
             explodeBubbleMusic.play();

@@ -14,8 +14,12 @@ function Scene1(){
     this.robots = new Set();
     this.robots.add(new Robot(300, 60, this.map));
     this.robots.add(new Robot(100, 260, this.map));
-    this.robots.add(new Robot(200, 300, this.map));
-    this.robots.add(new Robot(64, 400, this.map));
+
+
+
+    // ghost enemies //
+    this.fantasma = new Set();
+    this.fantasma.add(new Fantasma(200, 100, this.map));
 
     // spider enemies //
 
@@ -26,9 +30,13 @@ function Scene1(){
 
     this.bubbleRobots = new Set();
 
+
     // bubble spiders
 
     this.bubbleSpiders = new Set();
+
+    // bubble ghost //
+    this.bubbleghost = new Set(); 
 
     // bubbles
 
@@ -39,6 +47,8 @@ function Scene1(){
     this.papas = new Set();
 
     this.fruits = new Set();
+
+    this.cake = new Set(); 
 
 
     // points
@@ -81,12 +91,12 @@ Scene1.prototype.checkshoot = function(){
 
 Scene1.prototype.allEnemiesDead = function(){
 
-    return this.spiders.size == 0 && this.robots.size == 0 && this.bubbleRobots.size == 0 && this.bubbleSpiders.size == 0;
+    return this.spiders.size == 0 && this.robots.size == 0 && this.bubbleRobots.size == 0 && this.bubbleSpiders.size == 0 && this.fantasma.size == 0 && this.bubbleghost.size == 0;
 }
 
 Scene1.prototype.allRewardsPicked = function(){
 
-    return this.fruits.size == 0 && this.papas.size == 0 && this.allEnemiesDead();
+    return this.fruits.size == 0 && this.papas.size == 0 && this.cake.size == 0 && this.allEnemiesDead();
 }
 
 Scene1.prototype.checkActualLevel = function(){
@@ -111,7 +121,7 @@ Scene1.prototype.checkActualLevel = function(){
 Scene1.prototype.checkRobot = function(){
 
     this.bubbleRobots.forEach(element => {
-        if(element.getTimer() > 5000){
+        if(element.getTimer() > 7000){
             this.robots.add(new Robot(element.sprite.x, element.sprite.y, this.map));
             this.bubbleRobots.delete(element);
             explodeBubbleMusic.play();
@@ -122,9 +132,20 @@ Scene1.prototype.checkRobot = function(){
 Scene1.prototype.checkSpider = function(){
 
     this.bubbleSpiders.forEach(element => {
-        if(element.getTimer() > 5000){
+        if(element.getTimer() > 7000){
             this.spiders.add(new Araña(element.sprite.x, element.sprite.y, this.map));
             this.bubbleSpiders.delete(element);
+            explodeBubbleMusic.play();
+        }
+    });
+}
+
+Scene1.prototype.checkGhost = function(){
+
+    this.bubbleghost.forEach(element => {
+        if(element.getTimer() > 7000){
+            this.fantasma.add(new Fantasma(element.sprite.x, element.sprite.y, this.map));
+            this.bubbleghost.delete(element);
             explodeBubbleMusic.play();
         }
     });
@@ -145,6 +166,17 @@ Scene1.prototype.checkColisionPlayerWithEnemy = function(){
     });
 
     this.robots.forEach(element => {
+        if(this.player.collisionBox().intersect(element.collisionBox())){
+            if(!goodMode && !this.gameOver){ // dead
+                deathMusic.play();
+                if(this.timerToGameOver == 0) this.timerToGameOver = this.currentTime;
+                if(this.player.positionright()) this.player.deathanimationright();
+                else this.player.deathanimationleft();
+            }
+            return;
+        }
+    });
+    this.fantasma.forEach(element => {
         if(this.player.collisionBox().intersect(element.collisionBox())){
             if(!goodMode && !this.gameOver){ // dead
                 deathMusic.play();
@@ -205,6 +237,15 @@ Scene1.prototype.createRewards = function (){
         }
     });
 
+    this.bubbleghost.forEach(element => {
+        
+        if(this.player.collisionBox().intersect(element.collisionBox())){
+            this.explodeBubble(element.sprite.x, element.sprite.y);
+            this.bubbleghost.delete(element);
+            this.cake.add(new Cake(Math.floor(Math.random() * 449) + 32, Math.floor(Math.random() * 385) + 48, this.map));
+        }
+    });
+
 }
 
 Scene1.prototype.pickRewards = function(){
@@ -225,6 +266,16 @@ Scene1.prototype.pickRewards = function(){
             this.papas.delete(element);
             pickUpMusic.play();
             score += 200;
+            if(highScore == 0 || score >= highScore) highScore = score;
+        }
+    });
+
+    this.cake.forEach(element => {
+        if(this.player.collisionBox().intersect(element.collisionBox())){
+            this.points.add(new Points(element.sprite.x, element.sprite.y, this.map, 400));
+            this.cake.delete(element);
+            pickUpMusic.play();
+            score += 400;
             if(highScore == 0 || score >= highScore) highScore = score;
         }
     });
@@ -249,6 +300,15 @@ Scene1.prototype.catchEnemies = function(){
                 this.bubbleSpiders.add(new Bubble(spider.sprite.x, spider.sprite.y, this.map));
                 catchEnemyMusic.play();
                 this.spiders.delete(spider);
+                this.bombolles.delete(bubble);
+            }
+        });
+
+        this.fantasma.forEach(fantasma => {
+            if(!bubble.hasGravity() && !bubble.readyToExplode() && bubble.collisionBox().intersect(fantasma.collisionBox())){
+                this.bubbleghost.add(new BubbleGhost(fantasma.sprite.x, fantasma.sprite.y, this.map));
+                catchEnemyMusic.play();
+                this.fantasma.delete(fantasma);
                 this.bombolles.delete(bubble);
             }
         });
@@ -300,6 +360,10 @@ Scene1.prototype.update = function(deltaTime){
             element.update(deltaTime, this.player.sprite.x, this.player.sprite.y);
         });
 
+        this.fantasma.forEach(element => {
+            element.update(deltaTime);
+        });
+
         
         this.bombolles.forEach(element => {
             element.update(deltaTime);
@@ -313,11 +377,19 @@ Scene1.prototype.update = function(deltaTime){
             element.update(deltaTime);
         });
 
+        this.cake.forEach(element => {
+            element.update(deltaTime);
+        });
+
         this.bubbleRobots.forEach(element => {
             element.update(deltaTime);
         });
 
         this.bubbleSpiders.forEach(element => {
+            element.update(deltaTime);
+        });
+
+        this.bubbleghost.forEach(element => {
             element.update(deltaTime);
         });
 
@@ -339,6 +411,8 @@ Scene1.prototype.update = function(deltaTime){
         this.checkRobot();
 
         this.checkSpider();
+
+        this.checkGhost();
 
         this.checkShotsWalls();
 
@@ -405,6 +479,10 @@ Scene1.prototype.draw = function (){
         robot.draw();
     });
 
+    this.bubbleghost.forEach(bubble => {
+        bubble.draw();
+    });
+
     this.spiders.forEach(spider => {
         spider.draw();
     });
@@ -413,12 +491,20 @@ Scene1.prototype.draw = function (){
         element.draw();
     });
 
+    this.fantasma.forEach(fantasma => {
+        fantasma.draw();
+    });
+
     this.fruits.forEach(fruit => {
         fruit.draw();
     });
 
     this.papas.forEach(papa => {
         papa.draw();
+    });
+
+    this.cake.forEach(cake => {
+        cake.draw();
     });
     
     this.points.forEach(point =>{

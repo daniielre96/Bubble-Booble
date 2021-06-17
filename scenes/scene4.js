@@ -21,7 +21,6 @@ function Scene4(){
     this.spiders.add(new Araña(220, 60, this.map));
     this.spiders.add(new Araña(250, 30, this.map));
     this.spiders.add(new Araña(320, 60, this.map));
-    this.spiders.add(new Araña(350, 30, this.map));
     this.spiders.add(new Araña(48, 60, this.map));
 
 
@@ -112,7 +111,7 @@ Scene4.prototype.checkActualLevel = function(){
 Scene4.prototype.checkRobot = function(){
 
     this.bubbleRobots.forEach(element => {
-        if(element.getTimer() > 5000){
+        if(element.getTimer() > 7000){
             this.robots.add(new Robot(element.sprite.x, element.sprite.y, this.map));
             this.bubbleRobots.delete(element);
             explodeBubbleMusic.play();
@@ -123,7 +122,7 @@ Scene4.prototype.checkRobot = function(){
 Scene4.prototype.checkSpider = function(){
 
     this.bubbleSpiders.forEach(element => {
-        if(element.getTimer() > 5000){
+        if(element.getTimer() > 7000){
             this.spiders.add(new Araña(element.sprite.x, element.sprite.y, this.map));
             this.bubbleSpiders.delete(element);
             explodeBubbleMusic.play();

@@ -1,8 +1,10 @@
 const ONE_HUNDRED = 0; 
 const TWO_HUNDRED = 1; 
-const ONE_THOUSAND = 2; 
-const TWO_THOUSAND = 3;
-const HUP_POINT = 4;
+const FOUR_HUNDRED = 2; 
+const ONE_THOUSAND = 3; 
+const TWO_THOUSAND = 4;
+const FOUR_THOUSAND = 5; 
+const HUP_POINT = 6;
 
 function Points(){
     
@@ -22,10 +24,16 @@ function Points(x, y, map, score)
     this.sprite.addKeyframe(TWO_HUNDRED, [16, 0,16,16]);
 
     this.sprite.addAnimation(); 
+    this.sprite.addKeyframe(FOUR_HUNDRED, [0 ,48, 16,16])
+
+    this.sprite.addAnimation(); 
     this.sprite.addKeyframe(ONE_THOUSAND, [32,0,16,16]);
 
     this.sprite.addAnimation();
     this.sprite.addKeyframe(TWO_THOUSAND, [48,0,16,16]);
+
+    this.sprite.addAnimation(); 
+    this.sprite.addKeyframe(FOUR_THOUSAND, [16,48,16,16]);
 
     this.sprite.addAnimation(); 
     this.sprite.addKeyframe(HUP_POINT, [0, 16,64,16]);
@@ -33,8 +41,10 @@ function Points(x, y, map, score)
 
     if(score == 100) this.sprite.setAnimation(ONE_HUNDRED);
     if(score == 200) this.sprite.setAnimation(TWO_HUNDRED);
+    if(score == 400) this.sprite.setAnimation(FOUR_HUNDRED);
     if(score == 1000) this.sprite.setAnimation(ONE_THOUSAND);
     if(score == 2000) this.sprite.setAnimation(TWO_THOUSAND);
+    if(score == 4000) this.sprite.setAnimation(FOUR_THOUSAND);
     if(score == 1) this.sprite.setAnimation(HUP_POINT);
     
 	this.map = map; 
